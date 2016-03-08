@@ -42,11 +42,6 @@ public abstract class AbstractGenericDao<T, M extends GenericDao<T, PK>, PK> imp
     }
 
     @Override
-    public void deleteAll() {
-        getMapper().deleteAll();
-    }
-
-    @Override
     public long count() {
         return getMapper().count();
     }

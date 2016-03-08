@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 /**
  * @author KotovDV
  */
-@Repository
+@Repository(value = "profileDao")
 public class ProfileDaoImpl extends AbstractGenericDao<Profile, ProfileMapper, Long> implements ProfileDao {
 
     public ProfileDaoImpl() {

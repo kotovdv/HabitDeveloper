@@ -15,8 +15,6 @@ public interface GenericDao<T, PK> {
 
     void delete(PK id);
 
-    void deleteAll();
-
     long count();
 
     List<T> getAll();
