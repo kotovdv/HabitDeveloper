@@ -1,11 +1,14 @@
 package com.javalad.habitdeveloper.test.dao;
 
+import com.javalad.habitdeveloper.configuration.DataSourceConfiguration;
 import com.javalad.habitdeveloper.dao.ProfileDao;
 import com.javalad.habitdeveloper.domain.Profile;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -16,30 +19,24 @@ import static org.junit.Assert.*;
 /**
  * @author KotovDV
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @Rollback
 @Transactional
-public class ProfileDaoTest extends AbstractDaoTest {
+@SpringApplicationConfiguration(DataSourceConfiguration.class)
+public class ProfileDaoTest {
 
     @Resource
     private ProfileDao profileDao;
 
-    private Profile currentProfile;
+    private Profile profile;
 
     @Before
-    public void beforeTest(){
-        currentProfile =  new Profile("Test name","Test description");
-    }
-
-    @Test
-    public void addProfileTest() {
-        Profile profile = currentProfile;
-        profileDao.add(currentProfile);
-        assertTrue(profile.getId() != 0L);
+    public void beforeTest() {
+        profile = new Profile("Test name", "Test description");
     }
 
     @Test
     public void getProfileTest() {
-        Profile profile = currentProfile;
         profileDao.add(profile);
         Profile profileFromDb = profileDao.get(profile.getId());
         assertEquals(profile.getId(), profileFromDb.getId());
@@ -49,7 +46,6 @@ public class ProfileDaoTest extends AbstractDaoTest {
 
     @Test
     public void updateProfileTest() {
-        Profile profile = currentProfile;
         profileDao.add(profile);
         profile.setName("Updated profile value");
         profile.setDescription("Updated description value");
@@ -60,26 +56,14 @@ public class ProfileDaoTest extends AbstractDaoTest {
         assertEquals(profile.getDescription(), updatedProfile.getDescription());
     }
 
-
     @Test
-    public void deleteTest() {
-        Profile profile = currentProfile;
+    public void deleteAndExistsTest() {
         profileDao.add(profile);
         long id = profile.getId();
         assertTrue(id > 0);
         assertTrue(profileDao.exists(id));
         profileDao.delete(id);
         assertFalse(profileDao.exists(id));
-    }
-
-
-    @Test
-    public void countTest() {
-        Profile profile = currentProfile;
-        long countBefore = profileDao.count();
-        profileDao.add(profile);
-        long countAfter = profileDao.count();
-        assertEquals(countBefore + 1, countAfter);
     }
 
     @Test
@@ -97,13 +81,5 @@ public class ProfileDaoTest extends AbstractDaoTest {
         assertTrue(profiles.contains(secondProfile));
         assertTrue(profiles.contains(thirdProfile));
     }
-
-    @Test
-    public void existsTest() {
-        Profile profile = currentProfile;
-        profileDao.add(profile);
-        assertTrue(profileDao.exists(profile.getId()));
-    }
-
 
 }

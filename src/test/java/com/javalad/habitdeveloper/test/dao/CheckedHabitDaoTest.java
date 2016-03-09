@@ -1,11 +1,16 @@
 package com.javalad.habitdeveloper.test.dao;
 
+import com.javalad.habitdeveloper.configuration.DataSourceConfiguration;
 import com.javalad.habitdeveloper.dao.CheckedHabitDao;
 import com.javalad.habitdeveloper.domain.CheckedHabit;
+import com.javalad.habitdeveloper.test.dao.util.DisableConstraintsListener;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -16,32 +21,25 @@ import static org.junit.Assert.*;
 /**
  * @author KotovDV
  */
+@RunWith(SpringJUnit4ClassRunner.class)
 @Rollback
 @Transactional
-@TestExecutionListeners(value = DisableConstraintsListener.class,mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
-public class CheckedHabitDaoTest extends AbstractDaoTest {
+@SpringApplicationConfiguration(DataSourceConfiguration.class)
+@TestExecutionListeners(value = DisableConstraintsListener.class, mergeMode = TestExecutionListeners.MergeMode.MERGE_WITH_DEFAULTS)
+public class CheckedHabitDaoTest {
 
     @Resource
     private CheckedHabitDao checkedHabitDao;
 
-    private CheckedHabit currentHabit;
+    private CheckedHabit habit;
 
     @Before
-    public void beforeTest(){
-        this.currentHabit = new CheckedHabit("addCheckedHabitTest", "description", -5, "* * * * * *");
-    }
-
-
-    @Test
-    public void addCheckedHabitTest() {
-        CheckedHabit habit = currentHabit;
-        checkedHabitDao.add(habit);
-        assertTrue(habit.getId() != 0L);
+    public void beforeTest() {
+        this.habit = new CheckedHabit("addCheckedHabitTest", "description", -5, "* * * * * *");
     }
 
     @Test
     public void getCheckedHabitTest() {
-        CheckedHabit habit = currentHabit;
         checkedHabitDao.add(habit);
         CheckedHabit habitFromDb = checkedHabitDao.get(habit.getId());
         assertEquals(habit.getId(), habitFromDb.getId());
@@ -53,7 +51,6 @@ public class CheckedHabitDaoTest extends AbstractDaoTest {
 
     @Test
     public void updateCheckedHabitTest() {
-        CheckedHabit habit = currentHabit;
         checkedHabitDao.add(habit);
         habit.setName("updated value");
         habit.setDescription("updated description");
@@ -68,34 +65,14 @@ public class CheckedHabitDaoTest extends AbstractDaoTest {
         assertEquals(habit.getCronExpression(), habitFromDb.getCronExpression());
     }
 
-
     @Test
-    public void deleteTest() {
-        CheckedHabit habit = currentHabit;
+    public void deleteAndExistsTest() {
         checkedHabitDao.add(habit);
         long id = habit.getId();
         assertTrue(id > 0);
         assertTrue(checkedHabitDao.exists(id));
         checkedHabitDao.delete(id);
         assertFalse(checkedHabitDao.exists(id));
-    }
-
-
-    @Test
-    public void countTest() {
-        CheckedHabit habit = currentHabit;
-        long countBefore = checkedHabitDao.count();
-        checkedHabitDao.add(habit);
-        long countAfter = checkedHabitDao.count();
-        assertEquals(countBefore + 1, countAfter);
-    }
-
-
-    @Test
-    public void existsTest() {
-        CheckedHabit habit = currentHabit;
-        checkedHabitDao.add(habit);
-        assertTrue(checkedHabitDao.exists(habit.getId()));
     }
 
     @Test
@@ -113,8 +90,5 @@ public class CheckedHabitDaoTest extends AbstractDaoTest {
         assertTrue(habits.contains(secondHabit));
         assertTrue(habits.contains(thirdHabit));
     }
-
-
-
 
 }

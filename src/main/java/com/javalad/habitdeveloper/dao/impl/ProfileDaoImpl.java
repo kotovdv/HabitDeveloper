@@ -2,6 +2,7 @@ package com.javalad.habitdeveloper.dao.impl;
 
 import com.javalad.habitdeveloper.dao.ProfileDao;
 import com.javalad.habitdeveloper.dao.mapper.ProfileMapper;
+import com.javalad.habitdeveloper.dao.util.AbstractGenericDao;
 import com.javalad.habitdeveloper.domain.Profile;
 import org.springframework.stereotype.Repository;
 

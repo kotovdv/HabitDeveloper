@@ -1,6 +1,5 @@
-package com.javalad.habitdeveloper.dao.impl;
+package com.javalad.habitdeveloper.dao.util;
 
-import com.javalad.habitdeveloper.dao.GenericDao;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 

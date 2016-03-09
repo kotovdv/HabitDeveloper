@@ -1,4 +1,4 @@
-package com.javalad.habitdeveloper.test.dao;
+package com.javalad.habitdeveloper.test.dao.util;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestContext;

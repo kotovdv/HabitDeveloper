@@ -1,4 +1,4 @@
-package com.javalad.habitdeveloper.dao;
+package com.javalad.habitdeveloper.dao.util;
 
 import java.util.List;
 
