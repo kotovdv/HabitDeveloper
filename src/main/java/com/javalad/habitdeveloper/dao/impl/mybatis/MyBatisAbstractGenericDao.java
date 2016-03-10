@@ -1,5 +1,6 @@
-package com.javalad.habitdeveloper.dao.util;
+package com.javalad.habitdeveloper.dao.impl.mybatis;
 
+import com.javalad.habitdeveloper.dao.GenericDao;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * @author KotovDV
  */
-public abstract class AbstractGenericDao<T, M extends GenericDao<T, PK>, PK> implements GenericDao<T, PK> {
+public abstract class MyBatisAbstractGenericDao<T, M extends GenericDao<T, PK>, PK> implements GenericDao<T, PK> {
 
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
@@ -16,7 +17,7 @@ public abstract class AbstractGenericDao<T, M extends GenericDao<T, PK>, PK> imp
     private final Class<M> mapperClass;
 
 
-    public AbstractGenericDao(Class<M> mapperClass) {
+    public MyBatisAbstractGenericDao(Class<M> mapperClass) {
         this.mapperClass = mapperClass;
     }
 

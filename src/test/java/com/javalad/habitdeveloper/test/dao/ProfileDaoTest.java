@@ -1,17 +1,14 @@
 package com.javalad.habitdeveloper.test.dao;
 
-import com.javalad.habitdeveloper.configuration.DataSourceConfiguration;
 import com.javalad.habitdeveloper.dao.ProfileDao;
 import com.javalad.habitdeveloper.domain.Profile;
+import com.javalad.habitdeveloper.test.dao.util.AbstractDaoTest;
+import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -19,11 +16,7 @@ import static org.junit.Assert.*;
 /**
  * @author KotovDV
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@Rollback
-@Transactional
-@SpringApplicationConfiguration(DataSourceConfiguration.class)
-public class ProfileDaoTest {
+public class ProfileDaoTest extends AbstractDaoTest {
 
     @Resource
     private ProfileDao profileDao;
@@ -36,24 +29,20 @@ public class ProfileDaoTest {
     }
 
     @Test
-    public void getProfileTest() {
+    public void addAndGetTest() {
         profileDao.add(profile);
         Profile profileFromDb = profileDao.get(profile.getId());
-        assertEquals(profile.getId(), profileFromDb.getId());
-        assertEquals(profile.getName(), profileFromDb.getName());
-        assertEquals(profile.getDescription(), profileFromDb.getDescription());
+        assertTrue(EqualsBuilder.reflectionEquals(profile, profileFromDb));
     }
 
     @Test
-    public void updateProfileTest() {
+    public void updateTest() {
         profileDao.add(profile);
         profile.setName("Updated profile value");
         profile.setDescription("Updated description value");
         profileDao.update(profile);
-        Profile updatedProfile = profileDao.get(profile.getId());
-        assertEquals(profile.getId(), updatedProfile.getId());
-        assertEquals(profile.getName(), updatedProfile.getName());
-        assertEquals(profile.getDescription(), updatedProfile.getDescription());
+        Profile profileFromDb = profileDao.get(profile.getId());
+        assertTrue(EqualsBuilder.reflectionEquals(profile, profileFromDb));
     }
 
     @Test
@@ -71,15 +60,12 @@ public class ProfileDaoTest {
         Profile firstProfile = new Profile("First profile", "First profile");
         Profile secondProfile = new Profile("Second profile", "Second profile");
         Profile thirdProfile = new Profile("Third profile", "Third profile");
-        profileDao.add(firstProfile);
-        profileDao.add(secondProfile);
-        profileDao.add(thirdProfile);
+        List<Profile> profileList = Arrays.asList(firstProfile, secondProfile, thirdProfile);
+        profileList.forEach(profile -> profileDao.add(profile));
         long count = profileDao.count();
         assertEquals(count, 3);
-        List<Profile> profiles = profileDao.getAll();
-        assertTrue(profiles.contains(firstProfile));
-        assertTrue(profiles.contains(secondProfile));
-        assertTrue(profiles.contains(thirdProfile));
+        List<Profile> profilesFromDb = profileDao.getAll();
+        profilesFromDb.forEach(profileFromDb -> assertTrue(profileList.contains(profileFromDb)));
     }
 
 }

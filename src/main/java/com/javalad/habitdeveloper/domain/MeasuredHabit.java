@@ -13,7 +13,7 @@ public class MeasuredHabit {
     private long profileId;
     private String cronExpression;
     private Date deadline;
-    private double deadlineValue;
+    private Double deadlineValue;
 
 
     protected MeasuredHabit() {
@@ -77,14 +77,13 @@ public class MeasuredHabit {
         this.deadline = deadline;
     }
 
-    public double getDeadlineValue() {
+    public Double getDeadlineValue() {
         return deadlineValue;
     }
 
-    public void setDeadlineValue(double deadlineValue) {
+    public void setDeadlineValue(Double deadlineValue) {
         this.deadlineValue = deadlineValue;
     }
-
 
     @Override
     public boolean equals(Object o) {

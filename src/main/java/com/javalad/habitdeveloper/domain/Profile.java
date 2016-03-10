@@ -1,5 +1,8 @@
 package com.javalad.habitdeveloper.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author KotovDV
  */
@@ -8,10 +11,10 @@ public class Profile {
     private long id;
     private String name;
     private String description;
+    private List<CheckedHabit> checkedHabits =  new ArrayList<>();
+    private List<MeasuredHabit> measuredHabits =  new ArrayList<>();
 
     protected Profile(){}
-
-
 
     public Profile(String name, String description) {
         this.name = name;
@@ -42,6 +45,21 @@ public class Profile {
         this.description = description;
     }
 
+    public List<CheckedHabit> getCheckedHabits() {
+        return checkedHabits;
+    }
+
+    public void setCheckedHabits(List<CheckedHabit> checkedHabits) {
+        this.checkedHabits = checkedHabits;
+    }
+
+    public List<MeasuredHabit> getMeasuredHabits() {
+        return measuredHabits;
+    }
+
+    public void setMeasuredHabits(List<MeasuredHabit> measuredHabits) {
+        this.measuredHabits = measuredHabits;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -49,9 +67,7 @@ public class Profile {
         if (o == null || getClass() != o.getClass()) return false;
 
         Profile profile = (Profile) o;
-
         return name.equals(profile.name);
-
     }
 
     @Override

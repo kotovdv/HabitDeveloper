@@ -1,4 +1,4 @@
-package com.javalad.habitdeveloper.dao.mapper;
+package com.javalad.habitdeveloper.dao.impl.mybatis.mapper;
 
 import com.javalad.habitdeveloper.dao.MeasuredHabitDao;
 import com.javalad.habitdeveloper.domain.MeasuredHabit;
