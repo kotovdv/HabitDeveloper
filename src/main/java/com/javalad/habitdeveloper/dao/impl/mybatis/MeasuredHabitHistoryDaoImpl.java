@@ -4,6 +4,8 @@ import com.javalad.habitdeveloper.dao.impl.mybatis.mapper.MeasuredHabitHistoryMa
 import com.javalad.habitdeveloper.domain.MeasuredHabitHistory;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author KotovDV
  */
@@ -12,5 +14,10 @@ public class MeasuredHabitHistoryDaoImpl extends MyBatisAbstractGenericDao<Measu
 
     public MeasuredHabitHistoryDaoImpl() {
         super(MeasuredHabitHistoryMapper.class);
+    }
+
+    @Override
+    public List<MeasuredHabitHistory> getByHabitId(long measuredHabitId) {
+        return getMapper().getByHabitId(measuredHabitId);
     }
 }

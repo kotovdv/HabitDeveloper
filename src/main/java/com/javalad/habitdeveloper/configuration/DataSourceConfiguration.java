@@ -13,6 +13,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -47,6 +49,12 @@ public class DataSourceConfiguration  {
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
+        Resource[] mapperLocations = {new ClassPathResource("mappers/ProfileMapper.xml"),
+                new ClassPathResource("mappers/CheckedHabitMapper.xml"),
+                new ClassPathResource("mappers/MeasuredHabitMapper.xml"),
+                new ClassPathResource("mappers/CheckedHabitHistoryMapper.xml"),
+                new ClassPathResource("mappers/MeasuredHabitHistoryMapper.xml")};
+        sqlSessionFactoryBean.setMapperLocations(mapperLocations);
         return sqlSessionFactoryBean.getObject();
     }
 

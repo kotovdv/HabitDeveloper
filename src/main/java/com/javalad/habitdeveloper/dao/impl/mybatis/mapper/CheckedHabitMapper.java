@@ -19,12 +19,7 @@ public interface CheckedHabitMapper extends CheckedHabitDao {
 
     @Override
     @Select("SELECT * FROM CHECKED_HABIT WHERE id = #{id}")
-    @Results({
-            @Result(column = "id",property = "id"),
-            @Result(column = "name",property = "name"),
-            @Result(column = "description",property = "description"),
-            @Result(column = "profile_id",property = "profileId"),
-            @Result(column = "cron_expression",property = "cronExpression")})
+    @ResultMap("checkedHabit.checkedHabitResultMap")
     CheckedHabit get(Long id);
 
     @Override
@@ -41,15 +36,15 @@ public interface CheckedHabitMapper extends CheckedHabitDao {
 
     @Override
     @Select("SELECT * FROM CHECKED_HABIT")
-    @Results({
-            @Result(column = "id",property = "id"),
-            @Result(column = "name",property = "name"),
-            @Result(column = "description",property = "description"),
-            @Result(column = "profile_id",property = "profileId"),
-            @Result(column = "cron_expression",property = "cronExpression")})
+    @ResultMap("checkedHabit.checkedHabitResultMap")
     List<CheckedHabit> getAll();
 
     @Override
     @Select("SELECT COUNT(1) counted FROM CHECKED_HABIT WHERE id = #{id}")
     boolean exists(Long id);
+
+    @Override
+    @Select("SELECT * FROM CHECKED_HABIT WHERE profile_id = #{profileId}")
+    @ResultMap("checkedHabit.checkedHabitResultMap")
+    List<CheckedHabit> getHabitsByProfileId(long profileId);
 }

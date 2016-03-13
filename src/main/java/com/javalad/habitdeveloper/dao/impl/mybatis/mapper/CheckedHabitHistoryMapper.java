@@ -19,11 +19,7 @@ public interface CheckedHabitHistoryMapper extends CheckedHabitHistoryDao {
 
     @Override
     @Select("SELECT * FROM CHECKED_HABIT_HISTORY WHERE id = #{id}")
-    @Results({
-            @Result(column = "id",property = "id"),
-            @Result(column = "checked_habit_id",property = "checkedHabitId"),
-            @Result(column = "check_date",property = "checkDate"),
-            @Result(column = "check_flag",property = "checkFlag")})
+    @ResultMap("checkedHabitHistory.checkedHabitHistoryResultMap")
     CheckedHabitHistory get(Long id);
 
     @Override
@@ -44,14 +40,15 @@ public interface CheckedHabitHistoryMapper extends CheckedHabitHistoryDao {
 
     @Override
     @Select("SELECT * FROM CHECKED_HABIT_HISTORY")
-    @Results({
-            @Result(column = "id",property = "id"),
-            @Result(column = "checked_habit_id",property = "checkedHabitId"),
-            @Result(column = "check_date",property = "checkDate"),
-            @Result(column = "check_flag",property = "checkFlag")})
+    @ResultMap("checkedHabitHistory.checkedHabitHistoryResultMap")
     List<CheckedHabitHistory> getAll();
 
     @Override
     @Select("SELECT COUNT(1) counted FROM CHECKED_HABIT_HISTORY WHERE id = #{id}")
     boolean exists(Long id);
+
+    @Override
+    @Select("SELECT * FROM CHECKED_HABIT_HISTORY WHERE checked_habit_id = #{checkedHabitId}")
+    @ResultMap("checkedHabitHistory.checkedHabitHistoryResultMap")
+    List<CheckedHabitHistory> getByHabitId(long checkedHabitId);
 }

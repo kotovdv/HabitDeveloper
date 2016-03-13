@@ -4,6 +4,8 @@ import com.javalad.habitdeveloper.dao.impl.mybatis.mapper.CheckedHabitHistoryMap
 import com.javalad.habitdeveloper.domain.CheckedHabitHistory;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author KotovDV
  */
@@ -12,5 +14,10 @@ public class CheckedHabitHistoryDaoImpl extends MyBatisAbstractGenericDao<Checke
 
     public CheckedHabitHistoryDaoImpl() {
         super(CheckedHabitHistoryMapper.class);
+    }
+
+    @Override
+    public List<CheckedHabitHistory> getByHabitId(long checkedHabitId) {
+        return getMapper().getByHabitId(checkedHabitId);
     }
 }

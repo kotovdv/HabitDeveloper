@@ -20,14 +20,7 @@ public interface MeasuredHabitMapper extends MeasuredHabitDao {
 
     @Override
     @Select("SELECT * FROM MEASURED_HABIT WHERE id = #{id}")
-    @Results({
-            @Result(column = "id", property = "id"),
-            @Result(column = "name", property = "name"),
-            @Result(column = "description", property = "description"),
-            @Result(column = "profile_id", property = "profileId"),
-            @Result(column = "cron_expression", property = "cronExpression"),
-            @Result(column = "deadline", property = "deadline"),
-            @Result(column = "deadline_value", property = "deadlineValue")})
+    @ResultMap("measuredHabit.measuredHabitResultMap")
     MeasuredHabit get(Long id);
 
     @Override
@@ -50,17 +43,17 @@ public interface MeasuredHabitMapper extends MeasuredHabitDao {
 
     @Override
     @Select("SELECT * FROM MEASURED_HABIT")
-    @Results({
-            @Result(column = "id", property = "id"),
-            @Result(column = "name", property = "name"),
-            @Result(column = "description", property = "description"),
-            @Result(column = "profile_id", property = "profileId"),
-            @Result(column = "cron_expression", property = "cronExpression"),
-            @Result(column = "deadline", property = "deadline"),
-            @Result(column = "deadline_value", property = "deadlineValue")})
+    @ResultMap("measuredHabit.measuredHabitResultMap")
     List<MeasuredHabit> getAll();
 
     @Override
     @Select("SELECT COUNT(1) counted FROM MEASURED_HABIT WHERE id = #{id}")
     boolean exists(Long id);
+
+
+    @Override
+    @Select("SELECT * FROM MEASURED_HABIT WHERE profile_id = #{profileId}")
+    @ResultMap("measuredHabit.measuredHabitResultMap")
+    List<MeasuredHabit> getHabitsByProfileId(long profileId);
+
 }

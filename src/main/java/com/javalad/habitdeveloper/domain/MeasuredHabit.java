@@ -1,6 +1,8 @@
 package com.javalad.habitdeveloper.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author KotovDV
@@ -14,6 +16,7 @@ public class MeasuredHabit {
     private String cronExpression;
     private Date deadline;
     private Double deadlineValue;
+    private List<MeasuredHabitHistory> habitHistories = new ArrayList<>();
 
 
     protected MeasuredHabit() {
@@ -85,10 +88,18 @@ public class MeasuredHabit {
         this.deadlineValue = deadlineValue;
     }
 
+    public List<MeasuredHabitHistory> getHabitHistories() {
+        return habitHistories;
+    }
+
+    public void setHabitHistories(List<MeasuredHabitHistory> habitHistories) {
+        this.habitHistories = habitHistories;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof MeasuredHabit)) return false;
 
         MeasuredHabit that = (MeasuredHabit) o;
 

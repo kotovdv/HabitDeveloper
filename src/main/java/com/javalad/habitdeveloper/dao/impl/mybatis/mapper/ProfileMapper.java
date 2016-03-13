@@ -18,6 +18,7 @@ public interface ProfileMapper extends ProfileDao {
 
     @Override
     @Select("SELECT * FROM profile WHERE id = #{id}")
+    @ResultMap("profile.profileResultMap")
     Profile get(Long id);
 
     @Override
@@ -34,6 +35,7 @@ public interface ProfileMapper extends ProfileDao {
 
     @Override
     @Select("SELECT * FROM profile")
+    @ResultMap("profile.profileResultMap")
     List<Profile> getAll();
 
     @Override

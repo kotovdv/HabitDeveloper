@@ -19,11 +19,7 @@ public interface MeasuredHabitHistoryMapper extends MeasuredHabitHistoryDao {
 
     @Override
     @Select("SELECT * FROM MEASURED_HABIT_HISTORY WHERE id = #{id}")
-    @Results({
-            @Result(column = "id",property = "id"),
-            @Result(column = "measured_habit_id",property = "measuredHabitId"),
-            @Result(column = "check_date",property = "checkDate"),
-            @Result(column = "measured_value",property = "measuredValue")})
+    @ResultMap("measuredHabitHistory.measuredHabitHistoryResultMap")
     MeasuredHabitHistory get(Long id);
 
     @Override
@@ -44,14 +40,15 @@ public interface MeasuredHabitHistoryMapper extends MeasuredHabitHistoryDao {
 
     @Override
     @Select("SELECT * FROM MEASURED_HABIT_HISTORY")
-    @Results({
-            @Result(column = "id",property = "id"),
-            @Result(column = "measured_habit_id",property = "measuredHabitId"),
-            @Result(column = "check_date",property = "checkDate"),
-            @Result(column = "measured_value",property = "measuredValue")})
+    @ResultMap("measuredHabitHistory.measuredHabitHistoryResultMap")
     List<MeasuredHabitHistory> getAll();
 
     @Override
     @Select("SELECT COUNT(1) counted FROM MEASURED_HABIT_HISTORY WHERE id = #{id}")
     boolean exists(Long id);
+
+    @Override
+    @Select("SELECT * FROM MEASURED_HABIT_HISTORY")
+    @ResultMap("measuredHabitHistory.measuredHabitHistoryResultMap")
+    List<MeasuredHabitHistory> getByHabitId(long measuredHabitId);
 }

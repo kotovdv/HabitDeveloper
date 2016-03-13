@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="checkedHabit">
+    <resultMap id="checkedHabitResultMap" type="com.javalad.habitdeveloper.domain.CheckedHabit">
+        <id column="id" property="id"/>
+        <result column="NAME" property="name"/>
+        <result column="DESCRIPTION" property="description"/>
+        <result column="PROFILE_ID" property="profileId"/>
+        <result column="CRON_EXPRESSION" property="cronExpression"/>
+        <collection property="habitHistories" javaType="java.util.ArrayList" column="id" fetchType="lazy"
+                    select="com.javalad.habitdeveloper.dao.impl.mybatis.mapper.CheckedHabitHistoryMapper.getByHabitId"/>
+    </resultMap>
+</mapper>

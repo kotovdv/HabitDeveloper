@@ -1,7 +1,9 @@
 package com.javalad.habitdeveloper.test.dao;
 
 import com.javalad.habitdeveloper.dao.MeasuredHabitDao;
+import com.javalad.habitdeveloper.dao.MeasuredHabitHistoryDao;
 import com.javalad.habitdeveloper.domain.MeasuredHabit;
+import com.javalad.habitdeveloper.domain.MeasuredHabitHistory;
 import com.javalad.habitdeveloper.test.dao.util.AbstractDaoTest;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Before;
@@ -22,7 +24,24 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
     @Resource
     private MeasuredHabitDao measuredHabitDao;
 
+    @Resource
+    private MeasuredHabitHistoryDao measuredHabitHistoryDao;
+
     private MeasuredHabit habit;
+
+
+    public boolean areHabitsEqual(MeasuredHabit firstHabit, MeasuredHabit secondHabit){
+        return new EqualsBuilder()
+                .append(firstHabit.getId(), secondHabit.getId())
+                .append(firstHabit.getName(), secondHabit.getName())
+                .append(firstHabit.getDescription(), secondHabit.getDescription())
+                .append(firstHabit.getProfileId(), secondHabit.getProfileId())
+                .append(firstHabit.getCronExpression(), secondHabit.getCronExpression())
+                .append(firstHabit.getDeadline(),secondHabit.getDeadline())
+                .append(firstHabit.getDeadlineValue(),secondHabit.getDeadlineValue())
+                .append(firstHabit.getHabitHistories(), secondHabit.getHabitHistories())
+                .isEquals();
+    }
 
     @Before
     public void beforeTest() {
@@ -32,8 +51,8 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
     @Test
     public void addAndGetTest() {
         measuredHabitDao.add(habit);
-        MeasuredHabit habitFromDb = measuredHabitDao.get(habit.getId());
-        assertTrue(EqualsBuilder.reflectionEquals(habit, habitFromDb));
+        MeasuredHabit extractedHabit = measuredHabitDao.get(habit.getId());
+        assertTrue(areHabitsEqual(habit, extractedHabit));
     }
 
     @Test
@@ -48,8 +67,8 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
         habit.setDeadline(c.getTime());
         habit.setDeadlineValue(habit.getDeadlineValue() + 100);
         measuredHabitDao.update(habit);
-        MeasuredHabit habitFromDb = measuredHabitDao.get(habit.getId());
-        assertTrue(EqualsBuilder.reflectionEquals(habit, habitFromDb));
+        MeasuredHabit extractedHabit = measuredHabitDao.get(habit.getId());
+        assertTrue(areHabitsEqual(habit, extractedHabit));
     }
 
     @Test
@@ -73,6 +92,39 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
         assertEquals(count, 3);
         List<MeasuredHabit> habitsFromDb = measuredHabitDao.getAll();
         habitsFromDb.forEach(measuredHabit -> assertTrue(measuredHabitList.contains(measuredHabit)));
+    }
+
+
+    @Test
+    public void getByProfileId() {
+        long profileId = -5;
+        List<MeasuredHabit> measuredHabits = Arrays.asList(new MeasuredHabit("habit1", "description", profileId, "* * * * * *", Calendar.getInstance().getTime(), 100),
+                new MeasuredHabit("habit2", "description", profileId, "* * * * * *", Calendar.getInstance().getTime(), 100));
+        measuredHabits.forEach(checkedHabit -> measuredHabitDao.add(checkedHabit));
+        List<MeasuredHabit> measuredHabitsFromDb = measuredHabitDao.getHabitsByProfileId(profileId);
+        assertTrue(measuredHabits.containsAll(measuredHabitsFromDb) && measuredHabitsFromDb.containsAll(measuredHabits));
+    }
+
+
+    @Test
+    public void getHabitHistoryTest() {
+        measuredHabitDao.add(habit);
+        long habitId = habit.getId();
+
+        Calendar calendar = Calendar.getInstance();
+        MeasuredHabitHistory firstHistory = new MeasuredHabitHistory(habitId, calendar.getTime(), 100.0);
+        calendar.add(Calendar.HOUR,24);
+        MeasuredHabitHistory secondHistory = new MeasuredHabitHistory(habitId, calendar.getTime(), 200.0);
+
+        List<MeasuredHabitHistory> initialHabitHistory = Arrays.asList(firstHistory, secondHistory);
+
+        initialHabitHistory.forEach(habitHistory -> measuredHabitHistoryDao.add(habitHistory));
+
+        MeasuredHabit extractedHabit = measuredHabitDao.get(habitId);
+
+        List<MeasuredHabitHistory> extractedHabitHistory = extractedHabit.getHabitHistories();
+        assertTrue(extractedHabitHistory.containsAll(initialHabitHistory) && initialHabitHistory.containsAll(extractedHabitHistory));
+
     }
 
 }

@@ -16,7 +16,6 @@ public abstract class MyBatisAbstractGenericDao<T, M extends GenericDao<T, PK>, 
 
     private final Class<M> mapperClass;
 
-
     public MyBatisAbstractGenericDao(Class<M> mapperClass) {
         this.mapperClass = mapperClass;
     }

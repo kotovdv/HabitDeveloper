@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 public class CheckedHabitHistoryDaoTest extends AbstractDaoTest {
 
     @Resource
-    CheckedHabitHistoryDao checkedHabitHistoryDao;
+    private CheckedHabitHistoryDao checkedHabitHistoryDao;
 
     private CheckedHabitHistory habitHistory;
 
@@ -76,5 +76,15 @@ public class CheckedHabitHistoryDaoTest extends AbstractDaoTest {
         habitHistoryListFromDb.forEach(checkedHabitHistory -> assertTrue(habitHistoryList.contains(checkedHabitHistory)));
     }
 
+    @Test
+    public void getByHabitIdTest(){
+        long checkedHabitId = 100;
+        List<CheckedHabitHistory>  initialHabitHistory = Arrays.asList(new CheckedHabitHistory(checkedHabitId, Calendar.getInstance().getTime(), true),
+                new CheckedHabitHistory(checkedHabitId, Calendar.getInstance().getTime(), true));
+        initialHabitHistory.forEach(habitHistory -> checkedHabitHistoryDao.add(habitHistory));
+
+        List<CheckedHabitHistory> extractedHabitHistory = checkedHabitHistoryDao.getByHabitId(checkedHabitId);
+        assertTrue(initialHabitHistory.containsAll(extractedHabitHistory) && extractedHabitHistory.containsAll(initialHabitHistory));
+    }
 
 }

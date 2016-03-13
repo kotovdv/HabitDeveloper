@@ -1,5 +1,8 @@
 package com.javalad.habitdeveloper.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author KotovDV
  */
@@ -10,6 +13,7 @@ public class CheckedHabit {
     private String description;
     private long profileId;
     private String cronExpression;
+    private List<CheckedHabitHistory> habitHistories = new ArrayList<>();
 
     protected CheckedHabit() {
     }
@@ -62,11 +66,18 @@ public class CheckedHabit {
         this.cronExpression = cronExpression;
     }
 
+    public List<CheckedHabitHistory> getHabitHistories() {
+        return habitHistories;
+    }
+
+    public void setHabitHistories(List<CheckedHabitHistory> habitHistories) {
+        this.habitHistories = habitHistories;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof CheckedHabit)) return false;
 
         CheckedHabit that = (CheckedHabit) o;
 
