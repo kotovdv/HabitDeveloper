@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <Profile id="1" name="test1"  description = "description1"/>
+    <Profile id="2" name="test2" description = "description2"/>
+    <Profile id="3" name="test3"  description = "description3"/>
+</dataset>
