@@ -11,8 +11,7 @@ import org.junit.Test;
 import javax.annotation.Resource;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * @author KotovDV
@@ -23,14 +22,15 @@ public class ProfileDaoTest extends AbstractDaoTest {
     private ProfileDao profileDao;
 
     @Test
-    @ExpectedDatabase(value = "classpath:dao/ProfileDaoTest/addTest/result.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    @ExpectedDatabase(value = "classpath:dao/ProfileDaoTest/addTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void addTest() {
         Profile profile = new Profile("New test", "New description");
         profileDao.add(profile);
+        assertEquals(profile.getId(), 1);
     }
 
     @Test
-    @DatabaseSetup(value = "classpath:dao/ProfileDaoTest/getTest/initial.xml")
+    @DatabaseSetup("classpath:dao/ProfileDaoTest/getTest/before.xml")
     public void getTest() {
         Profile extractedProfile = profileDao.get(1L);
         assertEquals(extractedProfile.getId(), 1);
@@ -39,8 +39,8 @@ public class ProfileDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    @DatabaseSetup(value = "classpath:dao/ProfileDaoTest/updateTest/initial.xml")
-    @ExpectedDatabase(value = "classpath:dao/ProfileDaoTest/updateTest/result.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    @DatabaseSetup("classpath:dao/ProfileDaoTest/updateTest/before.xml")
+    @ExpectedDatabase(value = "classpath:dao/ProfileDaoTest/updateTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void updateTest() {
         Profile extractedProfile = new Profile("updatedName", "updatedDescription");
         extractedProfile.setId(1L);
@@ -48,20 +48,20 @@ public class ProfileDaoTest extends AbstractDaoTest {
     }
 
     @Test
-    @DatabaseSetup(value = "classpath:dao/ProfileDaoTest/deleteTest/initial.xml")
-    @ExpectedDatabase(value = "classpath:dao/ProfileDaoTest/deleteTest/result.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    @DatabaseSetup("classpath:dao/ProfileDaoTest/deleteTest/before.xml")
+    @ExpectedDatabase(value = "classpath:dao/ProfileDaoTest/deleteTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void deleteTest() {
         profileDao.delete(2L);
     }
 
     @Test
-    @DatabaseSetup(value = "classpath:dao/ProfileDaoTest/countTest/initial.xml")
+    @DatabaseSetup("classpath:dao/ProfileDaoTest/countTest/before.xml")
     public void countTest() {
         assertEquals(profileDao.count(), 3);
     }
 
     @Test
-    @DatabaseSetup(value = "classpath:dao/ProfileDaoTest/getAllTest/initial.xml")
+    @DatabaseSetup("classpath:dao/ProfileDaoTest/getAllTest/before.xml")
     public void getAllTest() {
         List<Profile> profiles = profileDao.getAll();
         assertEquals(profiles.size(), 3);
@@ -76,10 +76,17 @@ public class ProfileDaoTest extends AbstractDaoTest {
 
 
     @Test
-    @DatabaseSetup(value = "classpath:dao/ProfileDaoTest/getProfileHabitsTest/initial.xml")
+    @DatabaseSetup("classpath:dao/ProfileDaoTest/getProfileHabitsTest/before.xml")
     public void getProfileHabitsTest() {
         Profile extractedProfile = profileDao.get(1L);
         assertEquals(extractedProfile.getCheckedHabits().size(), 2);
         assertEquals(extractedProfile.getMeasuredHabits().size(), 2);
+    }
+
+    @Test
+    @DatabaseSetup("classpath:dao/ProfileDaoTest/getProfileHabitsTest/before.xml")
+    public void existsTest() {
+        assertTrue(profileDao.exists(1L));
+        assertFalse(profileDao.exists(25L));
     }
 }

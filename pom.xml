@@ -42,6 +42,8 @@
         <mybatis-spring.version>1.2.4</mybatis-spring.version>
         <liquibase-core.version>3.4.2</liquibase-core.version>
         <junit.version>4.12</junit.version>
+        <dbunit.version>2.5.1</dbunit.version>
+        <spring-test-dbunit.version>1.2.1</spring-test-dbunit.version>
     </properties>
 
 
@@ -104,35 +106,29 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.github.springtestdbunit</groupId>
             <artifactId>spring-test-dbunit</artifactId>
-            <version>1.2.1</version>
+            <version>${spring-test-dbunit.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.dbunit</groupId>
             <artifactId>dbunit</artifactId>
-            <version>2.5.1</version>
+            <version>${dbunit.version}</version>
+            <scope>test</scope>
         </dependency>
-
-
-
-
     </dependencies>
 
 

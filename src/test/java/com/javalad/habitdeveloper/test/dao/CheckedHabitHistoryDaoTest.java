@@ -1,18 +1,19 @@
 package com.javalad.habitdeveloper.test.dao;
 
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.javalad.habitdeveloper.dao.CheckedHabitHistoryDao;
 import com.javalad.habitdeveloper.domain.CheckedHabitHistory;
 import com.javalad.habitdeveloper.test.dao.util.AbstractDaoTest;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.junit.Before;
 import org.junit.Test;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * @author KotovDV
@@ -22,69 +23,81 @@ public class CheckedHabitHistoryDaoTest extends AbstractDaoTest {
     @Resource
     private CheckedHabitHistoryDao checkedHabitHistoryDao;
 
-    private CheckedHabitHistory habitHistory;
-
-    @Before
-    public void beforeTest() {
-        habitHistory = new CheckedHabitHistory(100, Calendar.getInstance().getTime(), true);
+    @Test
+    @ExpectedDatabase(value = "classpath:dao/CheckedHabitHistoryDaoTest/addTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    public void addTest() {
+        CheckedHabitHistory history = new CheckedHabitHistory(1, getTestingDate(2016, 1, 1, 21, 0, 0, 0), false);
+        checkedHabitHistoryDao.add(history);
+        assertEquals(history.getId(), 1L);
     }
 
-
     @Test
-    public void addAndGetTest() {
-        checkedHabitHistoryDao.add(habitHistory);
-        CheckedHabitHistory habitHistoryFromDb = checkedHabitHistoryDao.get(habitHistory.getId());
-        assertTrue(EqualsBuilder.reflectionEquals(habitHistory, habitHistoryFromDb));
+    @DatabaseSetup(value = "classpath:dao/CheckedHabitHistoryDaoTest/getTest/before.xml")
+    public void getTest() {
+        CheckedHabitHistory habitHistory = checkedHabitHistoryDao.get(1L);
+        assertEquals(habitHistory.getId(), 1L);
+        assertEquals(habitHistory.getCheckedHabitId(), 1L);
+        assertEquals(habitHistory.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
+        assertEquals(habitHistory.getCheckFlag(), false);
     }
 
-
     @Test
+    @DatabaseSetup(value = "classpath:dao/CheckedHabitHistoryDaoTest/updateTest/before.xml")
+    @ExpectedDatabase(value = "classpath:dao/CheckedHabitHistoryDaoTest/updateTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void updateTest() {
-        checkedHabitHistoryDao.add(habitHistory);
-        habitHistory.setCheckedHabitId(200);
-        Calendar c = Calendar.getInstance();
-        c.setTime(habitHistory.getCheckDate());
-        c.add(Calendar.DATE, 1);
-        habitHistory.setCheckDate(c.getTime());
-        habitHistory.setCheckFlag(false);
+        CheckedHabitHistory habitHistory = new CheckedHabitHistory(2, getTestingDate(2016, 1, 1, 22, 0, 0, 0), true);
+        habitHistory.setId(1L);
         checkedHabitHistoryDao.update(habitHistory);
-        CheckedHabitHistory habitHistoryFromDb = checkedHabitHistoryDao.get(habitHistory.getId());
-        assertTrue(EqualsBuilder.reflectionEquals(habitHistory, habitHistoryFromDb));
     }
 
     @Test
-    public void deleteAndExistsTest() {
-        checkedHabitHistoryDao.add(habitHistory);
-        long id = habitHistory.getId();
-        assertTrue(id > 0);
-        assertTrue(checkedHabitHistoryDao.exists(id));
-        checkedHabitHistoryDao.delete(id);
-        assertFalse(checkedHabitHistoryDao.exists(id));
+    @DatabaseSetup(value = "classpath:dao/CheckedHabitHistoryDaoTest/deleteTest/before.xml")
+    @ExpectedDatabase(value = "classpath:dao/CheckedHabitHistoryDaoTest/deleteTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    public void deleteTest() {
+        checkedHabitHistoryDao.delete(2L);
     }
 
+    @Test
+    @DatabaseSetup(value = "classpath:dao/CheckedHabitHistoryDaoTest/countTest/before.xml")
+    public void countTest() {
+        assertEquals(checkedHabitHistoryDao.count(), 3);
+    }
 
     @Test
+    @DatabaseSetup(value = "classpath:dao/CheckedHabitHistoryDaoTest/getAllTest/before.xml")
     public void getAllTest() {
-        CheckedHabitHistory firstHabitHistory = new CheckedHabitHistory(100, Calendar.getInstance().getTime(), true);
-        CheckedHabitHistory secondHabitHistory = new CheckedHabitHistory(300, Calendar.getInstance().getTime(), true);
-        CheckedHabitHistory thirdHabitHistory = new CheckedHabitHistory(200, Calendar.getInstance().getTime(), false);
-        List<CheckedHabitHistory> habitHistoryList = Arrays.asList(firstHabitHistory, secondHabitHistory, thirdHabitHistory);
-        habitHistoryList.forEach(checkedHabitHistory -> checkedHabitHistoryDao.add(checkedHabitHistory));
-        long count = checkedHabitHistoryDao.count();
-        assertEquals(count, 3);
-        List<CheckedHabitHistory> habitHistoryListFromDb = checkedHabitHistoryDao.getAll();
-        habitHistoryListFromDb.forEach(checkedHabitHistory -> assertTrue(habitHistoryList.contains(checkedHabitHistory)));
+        List<CheckedHabitHistory> histories = checkedHabitHistoryDao.getAll();
+        assertEquals(histories.size(), 3);
+        histories.forEach(history -> {
+            long historyId = history.getId();
+            assertTrue(historyId >= 1 && historyId <= 3);
+            assertEquals(history.getCheckedHabitId(), historyId);
+            assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
+            assertEquals(history.getCheckFlag(), historyId % 2 == 0 ? false : true);
+        });
     }
 
     @Test
-    public void getByHabitIdTest(){
-        long checkedHabitId = 100;
-        List<CheckedHabitHistory>  initialHabitHistory = Arrays.asList(new CheckedHabitHistory(checkedHabitId, Calendar.getInstance().getTime(), true),
-                new CheckedHabitHistory(checkedHabitId, Calendar.getInstance().getTime(), true));
-        initialHabitHistory.forEach(habitHistory -> checkedHabitHistoryDao.add(habitHistory));
-
-        List<CheckedHabitHistory> extractedHabitHistory = checkedHabitHistoryDao.getByHabitId(checkedHabitId);
-        assertTrue(initialHabitHistory.containsAll(extractedHabitHistory) && extractedHabitHistory.containsAll(initialHabitHistory));
+    @DatabaseSetup(value = "classpath:dao/CheckedHabitHistoryDaoTest/existsTest/before.xml")
+    public void existsTest() {
+        assertTrue(checkedHabitHistoryDao.exists(1L));
+        assertFalse(checkedHabitHistoryDao.exists(2L));
     }
+
+    @Test
+    @DatabaseSetup(value = "classpath:dao/CheckedHabitHistoryDaoTest/getByHabitIdTest/before.xml")
+    public void getByHabitIdTest() {
+        List<CheckedHabitHistory> histories = checkedHabitHistoryDao.getByHabitId(1L);
+        assertEquals(histories.size(), 3);
+        histories.forEach(history -> {
+            long historyId = history.getId();
+            assertTrue(historyId >= 1 && historyId <= 3);
+            assertEquals(history.getCheckedHabitId(), 1);
+            assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
+            assertEquals(history.getCheckFlag(), historyId % 2 == 0 ? false : true);
+        });
+
+    }
+
 
 }

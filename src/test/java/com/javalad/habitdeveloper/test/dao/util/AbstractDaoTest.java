@@ -10,6 +10,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * @author KotovDV
  */
@@ -23,9 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
         TransactionDbUnitTestExecutionListener.class})
 public abstract class AbstractDaoTest {
 
-
-
-   /* public abstract void addTest();
+    public abstract void addTest();
 
     public abstract void getTest();
 
@@ -35,6 +36,21 @@ public abstract class AbstractDaoTest {
 
     public abstract void countTest();
 
-    public abstract void getAllTest();*/
+    public abstract void getAllTest();
+
+    public abstract void existsTest();
+
+
+    protected Date getTestingDate(int year, int month, int day, int hour, int minute, int second, int millisecond) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month - 1);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        calendar.set(Calendar.HOUR_OF_DAY, hour);
+        calendar.set(Calendar.MINUTE, minute);
+        calendar.set(Calendar.SECOND, second);
+        calendar.set(Calendar.MILLISECOND, millisecond);
+        return calendar.getTime();
+    }
 
 }

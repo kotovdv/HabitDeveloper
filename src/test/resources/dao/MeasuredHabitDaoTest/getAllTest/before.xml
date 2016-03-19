@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <measured_habit id="1" name="habit1" description="description1" profile_id="1" cron_expression="cron1" deadline="2016-01-01 21:00:00" deadline_value="100.0"/>
+    <measured_habit id="2" name="habit2" description="description2" profile_id="2" cron_expression="cron2" deadline="2016-01-01 21:00:00" deadline_value="200.0"/>
+    <measured_habit id="3" name="habit3" description="description3" profile_id="3" cron_expression="cron3" deadline="2016-01-01 21:00:00" deadline_value="300.0"/>
+</dataset>

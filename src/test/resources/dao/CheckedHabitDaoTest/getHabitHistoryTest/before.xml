@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <checked_habit id="1" name="habit1" description="description1" profile_id="4" cron_expression="cron1"/>
+    <checked_habit_history id="1" checked_habit_id="1" check_date="2016-03-15" check_flag="false"/>
+    <checked_habit_history id="2" checked_habit_id="1" check_date="2016-03-15" check_flag="false"/>
+    <checked_habit_history id="3" checked_habit_id="1" check_date="2016-03-15" check_flag="false"/>
+</dataset>

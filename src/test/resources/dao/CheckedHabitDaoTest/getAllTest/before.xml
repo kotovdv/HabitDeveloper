@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <checked_habit id="1" name="habit1" description="description1" profile_id="4" cron_expression="cron1"/>
+    <checked_habit id="2" name="habit2" description="description2" profile_id="5" cron_expression="cron2"/>
+    <checked_habit id="3" name="habit3" description="description3" profile_id="6" cron_expression="cron3"/>
+</dataset>

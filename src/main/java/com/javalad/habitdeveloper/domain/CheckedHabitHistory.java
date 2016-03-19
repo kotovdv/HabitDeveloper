@@ -46,7 +46,7 @@ public class CheckedHabitHistory {
         this.checkDate = checkDate;
     }
 
-    public boolean isCheckFlag() {
+    public boolean getCheckFlag() {
         return checkFlag;
     }
 

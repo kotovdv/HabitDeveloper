@@ -23,16 +23,15 @@ public class DisableConstraintsListener extends AbstractTestExecutionListener {
         super.afterTestClass(testContext);
     }
 
-
-    protected static void disableForeignKeys(JdbcTemplate jdbcTemplate) {
+    protected void disableForeignKeys(JdbcTemplate jdbcTemplate) {
         changeForeignKeysState(jdbcTemplate, false);
     }
 
-    protected static void enableForeignKeys(JdbcTemplate jdbcTemplate) {
+    protected void enableForeignKeys(JdbcTemplate jdbcTemplate) {
         changeForeignKeysState(jdbcTemplate, true);
     }
 
-    private static void changeForeignKeysState(JdbcTemplate jdbcTemplate, boolean enabled) {
+    private void changeForeignKeysState(JdbcTemplate jdbcTemplate, boolean enabled) {
         jdbcTemplate.execute("SET DATABASE REFERENTIAL INTEGRITY " + (enabled ? "TRUE" : "FALSE"));
     }
 

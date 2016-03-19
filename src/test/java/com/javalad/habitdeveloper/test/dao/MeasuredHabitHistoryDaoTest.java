@@ -1,15 +1,14 @@
 package com.javalad.habitdeveloper.test.dao;
 
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.github.springtestdbunit.annotation.ExpectedDatabase;
+import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.javalad.habitdeveloper.dao.MeasuredHabitHistoryDao;
 import com.javalad.habitdeveloper.domain.MeasuredHabitHistory;
 import com.javalad.habitdeveloper.test.dao.util.AbstractDaoTest;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.junit.Before;
 import org.junit.Test;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -22,70 +21,80 @@ public class MeasuredHabitHistoryDaoTest extends AbstractDaoTest {
     @Resource
     private MeasuredHabitHistoryDao measuredHabitHistoryDao;
 
-    private MeasuredHabitHistory habitHistory;
-
-    @Before
-    public void beforeTest() {
-        habitHistory = new MeasuredHabitHistory(100, Calendar.getInstance().getTime(), 150.0);
-    }
-
-
     @Test
-    public void addAndGetTest() {
-        measuredHabitHistoryDao.add(habitHistory);
-        MeasuredHabitHistory habitHistoryFromDb = measuredHabitHistoryDao.get(habitHistory.getId());
-        assertTrue(EqualsBuilder.reflectionEquals(habitHistory, habitHistoryFromDb));
+    @ExpectedDatabase(value = "classpath:dao/MeasuredHabitHistoryDaoTest/addTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    public void addTest() {
+        MeasuredHabitHistory history = new MeasuredHabitHistory(1, getTestingDate(2016, 1, 1, 21, 0, 0, 0), 100.0);
+        measuredHabitHistoryDao.add(history);
+        assertEquals(history.getId(), 1L);
     }
 
     @Test
+    @DatabaseSetup("classpath:dao/MeasuredHabitHistoryDaoTest/getTest/before.xml")
+    public void getTest() {
+        MeasuredHabitHistory history = measuredHabitHistoryDao.get(1L);
+        assertEquals(history.getId(), 1L);
+        assertEquals(history.getMeasuredHabitId(), 1L);
+        assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
+        assertEquals(history.getMeasuredValue(), 100, 0);
+    }
+
+    @Test
+    @DatabaseSetup("classpath:dao/MeasuredHabitHistoryDaoTest/updateTest/before.xml")
+    @ExpectedDatabase(value = "classpath:dao/MeasuredHabitHistoryDaoTest/updateTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void updateTest() {
-        measuredHabitHistoryDao.add(habitHistory);
-        habitHistory.setMeasuredHabitId(200);
-        Calendar c = Calendar.getInstance();
-        c.setTime(habitHistory.getCheckDate());
-        c.add(Calendar.DATE, 1);
-        habitHistory.setCheckDate(c.getTime());
-        habitHistory.setMeasuredValue(350.0);
-        measuredHabitHistoryDao.update(habitHistory);
-        MeasuredHabitHistory habitHistoryFromDb = measuredHabitHistoryDao.get(habitHistory.getId());
-        assertTrue(EqualsBuilder.reflectionEquals(habitHistory, habitHistoryFromDb));
+        MeasuredHabitHistory history = new MeasuredHabitHistory(2, getTestingDate(2016, 1, 1, 22, 0, 0, 0), 200.0);
+        history.setId(1);
+        measuredHabitHistoryDao.update(history);
     }
 
-
     @Test
-    public void deleteAndExistsTest() {
-        measuredHabitHistoryDao.add(habitHistory);
-        long id = habitHistory.getId();
-        assertTrue(id > 0);
-        assertTrue(measuredHabitHistoryDao.exists(id));
-        measuredHabitHistoryDao.delete(id);
-        assertFalse(measuredHabitHistoryDao.exists(id));
+    @DatabaseSetup("classpath:dao/MeasuredHabitHistoryDaoTest/deleteTest/before.xml")
+    @ExpectedDatabase(value = "classpath:dao/MeasuredHabitHistoryDaoTest/deleteTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
+    public void deleteTest() {
+        measuredHabitHistoryDao.delete(2L);
     }
 
+    @Test
+    @DatabaseSetup("classpath:dao/MeasuredHabitHistoryDaoTest/countTest/before.xml")
+    public void countTest() {
+        assertEquals(measuredHabitHistoryDao.count(), 3);
+    }
 
     @Test
+    @DatabaseSetup("classpath:dao/MeasuredHabitHistoryDaoTest/getAllTest/before.xml")
     public void getAllTest() {
-        MeasuredHabitHistory firstHabitHistory = new MeasuredHabitHistory(100, Calendar.getInstance().getTime(), 100.0);
-        MeasuredHabitHistory secondHabitHistory = new MeasuredHabitHistory(300, Calendar.getInstance().getTime(), 200.0);
-        MeasuredHabitHistory thirdHabitHistory = new MeasuredHabitHistory(200, Calendar.getInstance().getTime(), 300.0);
-        List<MeasuredHabitHistory> habitHistoryList = Arrays.asList(firstHabitHistory, secondHabitHistory, thirdHabitHistory);
-        habitHistoryList.forEach(checkedHabitHistory -> measuredHabitHistoryDao.add(checkedHabitHistory));
-        long count = measuredHabitHistoryDao.count();
-        assertEquals(count, 3);
-        List<MeasuredHabitHistory> habitHistoryListFromDb = measuredHabitHistoryDao.getAll();
-        habitHistoryListFromDb.forEach(checkedHabitHistory -> assertTrue(habitHistoryList.contains(checkedHabitHistory)));
+        List<MeasuredHabitHistory> histories = measuredHabitHistoryDao.getAll();
+        assertEquals(histories.size(), 3);
+        histories.forEach(history -> {
+            long historyId = history.getId();
+            assertTrue(historyId >= 1 && historyId <= 3);
+            assertEquals(history.getMeasuredHabitId(), historyId);
+            assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
+            assertEquals(history.getMeasuredValue(), historyId * 100.0, 0);
+        });
     }
-
 
     @Test
-    public void getByHabitIdTest() {
-        long measuredHabitId = 100;
-        List<MeasuredHabitHistory> initialHabitHistory = Arrays.asList(new MeasuredHabitHistory(measuredHabitId, Calendar.getInstance().getTime(), 100.0),
-                new MeasuredHabitHistory(measuredHabitId, Calendar.getInstance().getTime(), 100.0));
-        initialHabitHistory.forEach(habitHistory -> measuredHabitHistoryDao.add(habitHistory));
-
-        List<MeasuredHabitHistory> extractedHabitHistory = measuredHabitHistoryDao.getByHabitId(measuredHabitId);
-        assertTrue(initialHabitHistory.containsAll(extractedHabitHistory) && extractedHabitHistory.containsAll(initialHabitHistory));
+    @DatabaseSetup("classpath:dao/MeasuredHabitHistoryDaoTest/existsTest/before.xml")
+    public void existsTest() {
+        assertTrue(measuredHabitHistoryDao.exists(1L));
+        assertFalse(measuredHabitHistoryDao.exists(25L));
     }
+
+    @Test
+    @DatabaseSetup("classpath:dao/MeasuredHabitHistoryDaoTest/getByHabitIdTest/before.xml")
+    public void getByHabitIdTest() {
+        List<MeasuredHabitHistory> histories = measuredHabitHistoryDao.getByHabitId(1);
+        assertEquals(histories.size(), 3);
+        histories.forEach(history -> {
+            long historyId = history.getId();
+            assertTrue(historyId >= 1 && historyId <= 3);
+            assertEquals(history.getMeasuredHabitId(), 1);
+            assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
+            assertEquals(history.getMeasuredValue(), historyId * 100.0, 0);
+        });
+    }
+
 
 }

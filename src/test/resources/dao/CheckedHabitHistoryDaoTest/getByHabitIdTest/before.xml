@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <checked_habit_history id="1" checked_habit_id="1" check_date="2016-01-01 21:00:00" check_flag="true"/>
+    <checked_habit_history id="2" checked_habit_id="1" check_date="2016-01-01 21:00:00" check_flag="false"/>
+    <checked_habit_history id="3" checked_habit_id="1" check_date="2016-01-01 21:00:00" check_flag="true"/>
+</dataset>

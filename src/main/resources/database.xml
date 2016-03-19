@@ -3,11 +3,10 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    
+
     <changeSet id="habitDeveloper[0]" author="KotovDV">
         <tagDatabase tag="0.0"/>
     </changeSet>
-
 
     <changeSet id="habitDeveloper[1]" author="KotovDV">
         <preConditions onFail="HALT" onError="HALT" onFailMessage="Sequence PROFILE_SEQ already exists">
@@ -21,12 +20,10 @@
         </sql>
     </changeSet>
 
-
-
     <changeSet id="habitDeveloper[2]" author="KotovDV">
         <preConditions onFail="HALT" onError="HALT" onFailMessage="Table PROFILE already exists">
             <not>
-                <tableExists tableName="PROFILE" />
+                <tableExists tableName="PROFILE"/>
             </not>
         </preConditions>
         <comment>Creating PROFILE table</comment>
@@ -38,7 +35,6 @@
         </sql>
     </changeSet>
 
-
     <changeSet id="habitDeveloper[3]" author="KotovDV">
         <preConditions onFail="HALT" onError="HALT" onFailMessage="Sequence CHECKED_HABIT_SEQ already exists">
             <not>
@@ -48,7 +44,6 @@
         <comment>Creating CHECKED_HABIT_SEQ sequence</comment>
         <sql>CREATE SEQUENCE CHECKED_HABIT_SEQ AS BIGINT START WITH 1 INCREMENT BY 1</sql>
     </changeSet>
-
 
     <changeSet id="habitDeveloper[4]" author="KotovDV">
         <preConditions onFail="HALT" onError="HALT" onFailMessage="Table CHECKED_HABIT already exists">
@@ -68,22 +63,20 @@
         </sql>
     </changeSet>
 
-
     <changeSet id="habitDeveloper[5]" author="KotovDV">
         <preConditions>
             <not>
-                <sequenceExists sequenceName="MEASURED_HABIT_SEQ" />
+                <sequenceExists sequenceName="MEASURED_HABIT_SEQ"/>
             </not>
         </preConditions>
         <comment>Creating MEASURED_HABIT_SEQ sequence</comment>
         <sql>CREATE SEQUENCE MEASURED_HABIT_SEQ AS BIGINT START WITH 1 INCREMENT BY 1</sql>
     </changeSet>
 
-
     <changeSet id="habitDeveloper[6]" author="KotovDV">
         <preConditions>
             <not>
-                <tableExists tableName="MEASURED_HABIT" />
+                <tableExists tableName="MEASURED_HABIT"/>
             </not>
         </preConditions>
         <comment>Creating MEASURED_HABIT table</comment>
@@ -100,22 +93,20 @@
         </sql>
     </changeSet>
 
-
     <changeSet id="habitDeveloper[7]" author="KotovDV">
         <preConditions>
             <not>
-                <sequenceExists sequenceName="CHECKED_HABIT_HISTORY_SEQ" />
+                <sequenceExists sequenceName="CHECKED_HABIT_HISTORY_SEQ"/>
             </not>
         </preConditions>
         <comment>Creating CHECKED_HABIT_HISTORY_SEQ sequence</comment>
         <sql>CREATE SEQUENCE CHECKED_HABIT_HISTORY_SEQ AS BIGINT START WITH 1 INCREMENT BY 1</sql>
     </changeSet>
 
-
     <changeSet id="habitDeveloper[8]" author="KotovDV">
         <preConditions>
             <not>
-                <tableExists tableName="CHECKED_HABIT_HISTORY" />
+                <tableExists tableName="CHECKED_HABIT_HISTORY"/>
             </not>
         </preConditions>
         <comment>Creating CHECKED_HABIT_HISTORY table</comment>
@@ -132,7 +123,7 @@
     <changeSet id="habitDeveloper[9]" author="KotovDV">
         <preConditions>
             <not>
-                <sequenceExists sequenceName="MEASURED_HABIT_HISTORY_SEQ" />
+                <sequenceExists sequenceName="MEASURED_HABIT_HISTORY_SEQ"/>
             </not>
         </preConditions>
         <comment>Creating MEASURED_HABIT_HISTORY_SEQ sequence</comment>
@@ -142,7 +133,7 @@
     <changeSet id="habitDeveloper[10]" author="KotovDV">
         <preConditions>
             <not>
-                <tableExists tableName="MEASURED_HABIT_HISTORY" />
+                <tableExists tableName="MEASURED_HABIT_HISTORY"/>
             </not>
         </preConditions>
         <comment>Creating MEASURED_HABIT_HISTORY table</comment>
@@ -156,23 +147,8 @@
         </sql>
     </changeSet>
 
-
-
-
-
-
     <changeSet id="habitDeveloper[x]" author="KotovDV">
         <tagDatabase tag="1.0"/>
     </changeSet>
-    
-    
-    
-
-
-
-
-
-
-
 
 </databaseChangeLog>
