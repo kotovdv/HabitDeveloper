@@ -26,9 +26,8 @@ import javax.sql.DataSource;
  */
 @Configuration
 @EnableTransactionManagement
-@MapperScan(basePackages = "com.javalad.habitdeveloper.dao.impl.mybatis.mapper")
 @EnableConfigurationProperties(DataSourceProperties.class)
-@ComponentScan(basePackages = "com.javalad.habitdeveloper.dao")
+@MapperScan(basePackages = "com.javalad.habitdeveloper.dao.impl.mybatis.mapper")
 public class DataSourceConfiguration  {
 
     @Autowired

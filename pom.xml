@@ -44,6 +44,7 @@
         <junit.version>4.12</junit.version>
         <dbunit.version>2.5.1</dbunit.version>
         <spring-test-dbunit.version>1.2.1</spring-test-dbunit.version>
+        <thymeleaf.version>3.0.0.BETA02</thymeleaf.version>
     </properties>
 
 
@@ -53,7 +54,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
@@ -129,6 +130,19 @@
             <version>${dbunit.version}</version>
             <scope>test</scope>
         </dependency>
+
+          <dependency>
+              <groupId>org.thymeleaf</groupId>
+              <artifactId>thymeleaf</artifactId>
+              <version>${thymeleaf.version}</version>
+          </dependency>
+
+          <dependency>
+              <groupId>org.thymeleaf</groupId>
+              <artifactId>thymeleaf-spring4</artifactId>
+              <version>${thymeleaf.version}</version>
+          </dependency>
+
     </dependencies>
 
 
