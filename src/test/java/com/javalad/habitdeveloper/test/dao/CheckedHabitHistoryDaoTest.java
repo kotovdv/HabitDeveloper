@@ -7,8 +7,8 @@ import com.javalad.habitdeveloper.dao.CheckedHabitHistoryDao;
 import com.javalad.habitdeveloper.domain.CheckedHabitHistory;
 import com.javalad.habitdeveloper.test.dao.util.AbstractDaoTest;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
@@ -20,7 +20,7 @@ import static org.junit.Assert.assertFalse;
  */
 public class CheckedHabitHistoryDaoTest extends AbstractDaoTest {
 
-    @Resource
+    @Autowired
     private CheckedHabitHistoryDao checkedHabitHistoryDao;
 
     @Test

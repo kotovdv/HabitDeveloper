@@ -7,8 +7,8 @@ import com.javalad.habitdeveloper.dao.ProfileDao;
 import com.javalad.habitdeveloper.domain.Profile;
 import com.javalad.habitdeveloper.test.dao.util.AbstractDaoTest;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  */
 public class ProfileDaoTest extends AbstractDaoTest {
 
-    @Resource
+    @Autowired
     private ProfileDao profileDao;
 
     @Test
