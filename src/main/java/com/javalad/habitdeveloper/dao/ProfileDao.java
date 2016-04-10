@@ -7,4 +7,5 @@ import com.javalad.habitdeveloper.domain.Profile;
  */
 public interface ProfileDao extends GenericDao<Profile,Long> {
 
+    boolean existsByProfileName(String name);
 }

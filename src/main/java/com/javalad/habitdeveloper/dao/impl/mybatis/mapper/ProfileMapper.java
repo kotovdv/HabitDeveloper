@@ -42,4 +42,7 @@ public interface ProfileMapper extends ProfileDao {
     @Select("SELECT COUNT(1) counted FROM profile WHERE id = #{id}")
     boolean exists(Long id);
 
+    @Select("SELECT COUNT(1) counted FROM profile WHERE name = #{name}")
+    boolean existsByProfileName(String name);
+
 }

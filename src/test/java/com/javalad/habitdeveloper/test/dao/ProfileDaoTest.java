@@ -89,4 +89,11 @@ public class ProfileDaoTest extends AbstractDaoTest {
         assertTrue(profileDao.exists(1L));
         assertFalse(profileDao.exists(25L));
     }
+
+    @Test
+    @DatabaseSetup("classpath:dao/ProfileDaoTest/existsByProfileNameTest/before.xml")
+    public void existsByProfileNameTest(){
+        assertTrue(profileDao.existsByProfileName("test1"));
+        assertFalse(profileDao.existsByProfileName("test2"));
+    }
 }

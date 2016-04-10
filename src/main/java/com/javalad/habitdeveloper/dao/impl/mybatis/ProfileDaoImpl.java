@@ -16,4 +16,8 @@ public class ProfileDaoImpl extends MyBatisAbstractGenericDao<Profile, ProfileMa
         super(ProfileMapper.class);
     }
 
+    @Override
+    public boolean existsByProfileName(String name) {
+        return getMapper().existsByProfileName(name);
+    }
 }
