@@ -26,14 +26,14 @@ public class ProfileDaoTest extends AbstractDaoTest {
     public void addTest() {
         Profile profile = new Profile("New test", "New description");
         profileDao.add(profile);
-        assertEquals(profile.getId(), 1);
+        assertEquals(profile.getId().longValue(), 1L);
     }
 
     @Test
     @DatabaseSetup("classpath:dao/ProfileDaoTest/getTest/before.xml")
     public void getTest() {
         Profile extractedProfile = profileDao.get(1L);
-        assertEquals(extractedProfile.getId(), 1);
+        assertEquals(extractedProfile.getId().longValue(), 1L);
         assertEquals(extractedProfile.getName(), "getTest");
         assertEquals(extractedProfile.getDescription(), "getTestDescription");
     }
