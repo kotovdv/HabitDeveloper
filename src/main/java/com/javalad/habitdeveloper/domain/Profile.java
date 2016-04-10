@@ -8,24 +8,25 @@ import java.util.List;
  */
 public class Profile {
 
-    private long id;
+    private Long id;
     private String name;
     private String description;
-    private List<CheckedHabit> checkedHabits =  new ArrayList<>();
-    private List<MeasuredHabit> measuredHabits =  new ArrayList<>();
+    private List<CheckedHabit> checkedHabits = new ArrayList<>();
+    private List<MeasuredHabit> measuredHabits = new ArrayList<>();
 
-    protected Profile(){}
+    protected Profile() {
+    }
 
     public Profile(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,15 +65,16 @@ public class Profile {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof Profile)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         Profile profile = (Profile) o;
-        return name.equals(profile.name);
+
+        return name != null ? name.equals(profile.name) : profile.name == null;
     }
 
     @Override
     public int hashCode() {
-        return name.hashCode();
+        return name != null ? name.hashCode() : 0;
     }
 
     @Override

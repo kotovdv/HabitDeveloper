@@ -7,34 +7,34 @@ import java.util.Date;
  */
 public class CheckedHabitHistory {
 
-    private long id;
-    private long checkedHabitId;
+    private Long id;
+    private Long checkedHabitId;
     private Date checkDate;
-    private boolean checkFlag;
+    private Boolean checkFlag;
 
     protected CheckedHabitHistory(){
 
     }
 
-    public CheckedHabitHistory(long checkedHabitId, Date checkDate, boolean checkFlag) {
+    public CheckedHabitHistory(Long checkedHabitId, Date checkDate, Boolean checkFlag) {
         this.checkedHabitId = checkedHabitId;
         this.checkDate = checkDate;
         this.checkFlag = checkFlag;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getCheckedHabitId() {
+    public Long getCheckedHabitId() {
         return checkedHabitId;
     }
 
-    public void setCheckedHabitId(long checkedHabitId) {
+    public void setCheckedHabitId(Long checkedHabitId) {
         this.checkedHabitId = checkedHabitId;
     }
 
@@ -46,11 +46,11 @@ public class CheckedHabitHistory {
         this.checkDate = checkDate;
     }
 
-    public boolean getCheckFlag() {
+    public Boolean getCheckFlag() {
         return checkFlag;
     }
 
-    public void setCheckFlag(boolean checkFlag) {
+    public void setCheckFlag(Boolean checkFlag) {
         this.checkFlag = checkFlag;
     }
 
@@ -58,21 +58,22 @@ public class CheckedHabitHistory {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof CheckedHabitHistory)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         CheckedHabitHistory that = (CheckedHabitHistory) o;
 
-        if (checkedHabitId != that.checkedHabitId) return false;
-        if (checkFlag != that.checkFlag) return false;
-        return checkDate.equals(that.checkDate);
+        if (checkedHabitId != null ? !checkedHabitId.equals(that.checkedHabitId) : that.checkedHabitId != null)
+            return false;
+        if (checkDate != null ? !checkDate.equals(that.checkDate) : that.checkDate != null) return false;
+        return checkFlag != null ? checkFlag.equals(that.checkFlag) : that.checkFlag == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (checkedHabitId ^ (checkedHabitId >>> 32));
-        result = 31 * result + checkDate.hashCode();
-        result = 31 * result + (checkFlag ? 1 : 0);
+        int result = checkedHabitId != null ? checkedHabitId.hashCode() : 0;
+        result = 31 * result + (checkDate != null ? checkDate.hashCode() : 0);
+        result = 31 * result + (checkFlag != null ? checkFlag.hashCode() : 0);
         return result;
     }
 

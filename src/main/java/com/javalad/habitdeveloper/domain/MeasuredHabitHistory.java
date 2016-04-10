@@ -6,35 +6,35 @@ import java.util.Date;
  * @author KotovDV
  */
 public class MeasuredHabitHistory {
-    private long id;
-    private long measuredHabitId;
+    private Long id;
+    private Long measuredHabitId;
     private Date checkDate;
-    private double measuredValue;
+    private Double measuredValue;
 
 
     protected MeasuredHabitHistory() {
     }
 
-    public MeasuredHabitHistory(long measuredHabitId, Date checkTime, double measuredValue) {
+    public MeasuredHabitHistory(Long measuredHabitId, Date checkTime, Double measuredValue) {
         this.measuredHabitId = measuredHabitId;
         this.checkDate = checkTime;
         this.measuredValue = measuredValue;
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getMeasuredHabitId() {
+    public Long getMeasuredHabitId() {
         return measuredHabitId;
     }
 
-    public void setMeasuredHabitId(long measuredHabitId) {
+    public void setMeasuredHabitId(Long measuredHabitId) {
         this.measuredHabitId = measuredHabitId;
     }
 
@@ -46,11 +46,11 @@ public class MeasuredHabitHistory {
         this.checkDate = checkDate;
     }
 
-    public double getMeasuredValue() {
+    public Double getMeasuredValue() {
         return measuredValue;
     }
 
-    public void setMeasuredValue(double measuredValue) {
+    public void setMeasuredValue(Double measuredValue) {
         this.measuredValue = measuredValue;
     }
 
@@ -58,24 +58,22 @@ public class MeasuredHabitHistory {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof MeasuredHabitHistory)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
-        MeasuredHabitHistory that = (MeasuredHabitHistory) o;
+        MeasuredHabitHistory history = (MeasuredHabitHistory) o;
 
-        if (measuredHabitId != that.measuredHabitId) return false;
-        if (Double.compare(that.measuredValue, measuredValue) != 0) return false;
-        return checkDate.equals(that.checkDate);
+        if (measuredHabitId != null ? !measuredHabitId.equals(history.measuredHabitId) : history.measuredHabitId != null)
+            return false;
+        if (checkDate != null ? !checkDate.equals(history.checkDate) : history.checkDate != null) return false;
+        return measuredValue != null ? measuredValue.equals(history.measuredValue) : history.measuredValue == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = (int) (measuredHabitId ^ (measuredHabitId >>> 32));
-        result = 31 * result + checkDate.hashCode();
-        temp = Double.doubleToLongBits(measuredValue);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        int result = measuredHabitId != null ? measuredHabitId.hashCode() : 0;
+        result = 31 * result + (checkDate != null ? checkDate.hashCode() : 0);
+        result = 31 * result + (measuredValue != null ? measuredValue.hashCode() : 0);
         return result;
     }
 

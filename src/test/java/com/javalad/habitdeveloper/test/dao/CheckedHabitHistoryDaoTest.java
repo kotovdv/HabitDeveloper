@@ -26,26 +26,26 @@ public class CheckedHabitHistoryDaoTest extends AbstractDaoTest {
     @Test
     @ExpectedDatabase(value = "classpath:dao/CheckedHabitHistoryDaoTest/addTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void addTest() {
-        CheckedHabitHistory history = new CheckedHabitHistory(1, getTestingDate(2016, 1, 1, 21, 0, 0, 0), false);
+        CheckedHabitHistory history = new CheckedHabitHistory(1L, getTestingDate(2016, 1, 1, 21, 0, 0, 0), false);
         checkedHabitHistoryDao.add(history);
-        assertEquals(history.getId(), 1L);
+        assertEquals(history.getId().longValue(), 1L);
     }
 
     @Test
     @DatabaseSetup(value = "classpath:dao/CheckedHabitHistoryDaoTest/getTest/before.xml")
     public void getTest() {
         CheckedHabitHistory habitHistory = checkedHabitHistoryDao.get(1L);
-        assertEquals(habitHistory.getId(), 1L);
-        assertEquals(habitHistory.getCheckedHabitId(), 1L);
+        assertEquals(habitHistory.getId().longValue(), 1L);
+        assertEquals(habitHistory.getCheckedHabitId().longValue(), 1L);
         assertEquals(habitHistory.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
-        assertEquals(habitHistory.getCheckFlag(), false);
+        assertEquals(habitHistory.getCheckFlag(), Boolean.FALSE);
     }
 
     @Test
     @DatabaseSetup(value = "classpath:dao/CheckedHabitHistoryDaoTest/updateTest/before.xml")
     @ExpectedDatabase(value = "classpath:dao/CheckedHabitHistoryDaoTest/updateTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void updateTest() {
-        CheckedHabitHistory habitHistory = new CheckedHabitHistory(2, getTestingDate(2016, 1, 1, 22, 0, 0, 0), true);
+        CheckedHabitHistory habitHistory = new CheckedHabitHistory(2L, getTestingDate(2016, 1, 1, 22, 0, 0, 0), Boolean.TRUE);
         habitHistory.setId(1L);
         checkedHabitHistoryDao.update(habitHistory);
     }
@@ -71,9 +71,9 @@ public class CheckedHabitHistoryDaoTest extends AbstractDaoTest {
         histories.forEach(history -> {
             long historyId = history.getId();
             assertTrue(historyId >= 1 && historyId <= 3);
-            assertEquals(history.getCheckedHabitId(), historyId);
+            assertEquals(history.getCheckedHabitId().longValue(), historyId);
             assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
-            assertEquals(history.getCheckFlag(), historyId % 2 == 0 ? false : true);
+            assertEquals(history.getCheckFlag(), historyId % 2 == 0 ? Boolean.FALSE : Boolean.TRUE);
         });
     }
 
@@ -92,9 +92,9 @@ public class CheckedHabitHistoryDaoTest extends AbstractDaoTest {
         histories.forEach(history -> {
             long historyId = history.getId();
             assertTrue(historyId >= 1 && historyId <= 3);
-            assertEquals(history.getCheckedHabitId(), 1);
+            assertEquals(history.getCheckedHabitId().longValue(), 1L);
             assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
-            assertEquals(history.getCheckFlag(), historyId % 2 == 0 ? false : true);
+            assertEquals(history.getCheckFlag(), historyId % 2 == 0 ? Boolean.FALSE : Boolean.TRUE);
         });
 
     }

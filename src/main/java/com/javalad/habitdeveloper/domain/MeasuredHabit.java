@@ -9,10 +9,10 @@ import java.util.List;
  */
 public class MeasuredHabit {
 
-    private long id;
+    private Long id;
     private String name;
     private String description;
-    private long profileId;
+    private Long profileId;
     private String cronExpression;
     private Date deadline;
     private Double deadlineValue;
@@ -22,7 +22,7 @@ public class MeasuredHabit {
     protected MeasuredHabit() {
     }
 
-    public MeasuredHabit(String name, String description, long profileId, String cronExpression, Date deadline, double deadlineValue) {
+    public MeasuredHabit(String name, String description, Long profileId, String cronExpression, Date deadline, Double deadlineValue) {
         this.name = name;
         this.description = description;
         this.profileId = profileId;
@@ -32,11 +32,11 @@ public class MeasuredHabit {
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -56,11 +56,11 @@ public class MeasuredHabit {
         this.description = description;
     }
 
-    public long getProfileId() {
+    public Long getProfileId() {
         return profileId;
     }
 
-    public void setProfileId(long profileId) {
+    public void setProfileId(Long profileId) {
         this.profileId = profileId;
     }
 
@@ -99,22 +99,21 @@ public class MeasuredHabit {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || !(o instanceof MeasuredHabit)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         MeasuredHabit that = (MeasuredHabit) o;
 
-        if (profileId != that.profileId) return false;
-        return name.equals(that.name);
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return profileId != null ? profileId.equals(that.profileId) : that.profileId == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + (int) (profileId ^ (profileId >>> 32));
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (profileId != null ? profileId.hashCode() : 0);
         return result;
     }
-
 
     @Override
     public String toString() {

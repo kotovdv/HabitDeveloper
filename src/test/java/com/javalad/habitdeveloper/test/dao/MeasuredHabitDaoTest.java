@@ -26,19 +26,19 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
     @Test
     @ExpectedDatabase(value = "classpath:dao/MeasuredHabitDaoTest/addTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void addTest() {
-        MeasuredHabit habit = new MeasuredHabit("habit", "description", 1L, "* * * * * *", getTestingDate(2016, 1, 1, 21, 0, 0, 0), 100);
+        MeasuredHabit habit = new MeasuredHabit("habit", "description", 1L, "* * * * * *", getTestingDate(2016, 1, 1, 21, 0, 0, 0), 100D);
         measuredHabitDao.add(habit);
-        assertEquals(habit.getId(), 1L);
+        assertEquals(habit.getId().longValue(), 1L);
     }
 
     @Test
     @DatabaseSetup("classpath:dao/MeasuredHabitDaoTest/getTest/before.xml")
     public void getTest() {
         MeasuredHabit habit = measuredHabitDao.get(1L);
-        assertEquals(habit.getId(), 1L);
+        assertEquals(habit.getId().longValue(), 1L);
         assertEquals(habit.getName(), "habit");
         assertEquals(habit.getDescription(), "description");
-        assertEquals(habit.getProfileId(), 1L);
+        assertEquals(habit.getProfileId().longValue(), 1L);
         assertEquals(habit.getCronExpression(), "* * * * * *");
         assertEquals(habit.getDeadline(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
         assertEquals(habit.getDeadlineValue(), 100, 0);
@@ -48,7 +48,7 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
     @DatabaseSetup("classpath:dao/MeasuredHabitDaoTest/updateTest/before.xml")
     @ExpectedDatabase(value = "classpath:dao/MeasuredHabitDaoTest/updateTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void updateTest() {
-        MeasuredHabit measuredHabit = new MeasuredHabit("updatedHabit", "updatedDescription", 2L, "* * *", getTestingDate(2016, 1, 1, 22, 0, 0, 0), 200);
+        MeasuredHabit measuredHabit = new MeasuredHabit("updatedHabit", "updatedDescription", 2L, "* * *", getTestingDate(2016, 1, 1, 22, 0, 0, 0), 200D);
         measuredHabit.setId(1L);
         measuredHabitDao.update(measuredHabit);
     }
@@ -76,7 +76,7 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
             assertTrue(habitId >= 1L && habitId <= 3L);
             assertEquals(habit.getName(), "habit" + habitId);
             assertEquals(habit.getDescription(), "description" + habitId);
-            assertEquals(habit.getProfileId(), habitId);
+            assertEquals(habit.getProfileId().longValue(),habitId);
             assertEquals(habit.getCronExpression(), "cron" + habitId);
             assertEquals(habit.getDeadline(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
             assertEquals(habit.getDeadlineValue(), habitId * 100.0, 0);
@@ -101,7 +101,7 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
             assertTrue(habitId >= 1L && habitId <= 3L);
             assertEquals(habit.getName(), "habit" + habitId);
             assertEquals(habit.getDescription(), "description" + habitId);
-            assertEquals(habit.getProfileId(), 1L);
+            assertEquals(habit.getProfileId().longValue(), 1L);
             assertEquals(habit.getCronExpression(), "cron" + habitId);
             assertEquals(habit.getDeadline(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
             assertEquals(habit.getDeadlineValue(), habitId * 100.0, 0);

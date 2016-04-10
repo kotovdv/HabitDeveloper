@@ -24,17 +24,17 @@ public class MeasuredHabitHistoryDaoTest extends AbstractDaoTest {
     @Test
     @ExpectedDatabase(value = "classpath:dao/MeasuredHabitHistoryDaoTest/addTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void addTest() {
-        MeasuredHabitHistory history = new MeasuredHabitHistory(1, getTestingDate(2016, 1, 1, 21, 0, 0, 0), 100.0);
+        MeasuredHabitHistory history = new MeasuredHabitHistory(1L, getTestingDate(2016, 1, 1, 21, 0, 0, 0), 100D);
         measuredHabitHistoryDao.add(history);
-        assertEquals(history.getId(), 1L);
+        assertEquals(history.getId().longValue(), 1L);
     }
 
     @Test
     @DatabaseSetup("classpath:dao/MeasuredHabitHistoryDaoTest/getTest/before.xml")
     public void getTest() {
         MeasuredHabitHistory history = measuredHabitHistoryDao.get(1L);
-        assertEquals(history.getId(), 1L);
-        assertEquals(history.getMeasuredHabitId(), 1L);
+        assertEquals(history.getId().longValue(), 1L);
+        assertEquals(history.getMeasuredHabitId().longValue(), 1L);
         assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
         assertEquals(history.getMeasuredValue(), 100, 0);
     }
@@ -43,8 +43,8 @@ public class MeasuredHabitHistoryDaoTest extends AbstractDaoTest {
     @DatabaseSetup("classpath:dao/MeasuredHabitHistoryDaoTest/updateTest/before.xml")
     @ExpectedDatabase(value = "classpath:dao/MeasuredHabitHistoryDaoTest/updateTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void updateTest() {
-        MeasuredHabitHistory history = new MeasuredHabitHistory(2, getTestingDate(2016, 1, 1, 22, 0, 0, 0), 200.0);
-        history.setId(1);
+        MeasuredHabitHistory history = new MeasuredHabitHistory(2L, getTestingDate(2016, 1, 1, 22, 0, 0, 0), 200D);
+        history.setId(1L);
         measuredHabitHistoryDao.update(history);
     }
 
@@ -69,7 +69,7 @@ public class MeasuredHabitHistoryDaoTest extends AbstractDaoTest {
         histories.forEach(history -> {
             long historyId = history.getId();
             assertTrue(historyId >= 1 && historyId <= 3);
-            assertEquals(history.getMeasuredHabitId(), historyId);
+            assertEquals(history.getMeasuredHabitId().longValue(), historyId);
             assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
             assertEquals(history.getMeasuredValue(), historyId * 100.0, 0);
         });
@@ -90,7 +90,7 @@ public class MeasuredHabitHistoryDaoTest extends AbstractDaoTest {
         histories.forEach(history -> {
             long historyId = history.getId();
             assertTrue(historyId >= 1 && historyId <= 3);
-            assertEquals(history.getMeasuredHabitId(), 1);
+            assertEquals(history.getMeasuredHabitId().longValue(), 1);
             assertEquals(history.getCheckDate(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
             assertEquals(history.getMeasuredValue(), historyId * 100.0, 0);
         });

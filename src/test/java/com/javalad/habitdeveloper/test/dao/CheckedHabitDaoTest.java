@@ -24,19 +24,19 @@ public class CheckedHabitDaoTest extends AbstractDaoTest {
     @Test
     @ExpectedDatabase(value = "classpath:dao/CheckedHabitDaoTest/addTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void addTest() {
-        CheckedHabit habit = new CheckedHabit("habit1", "description1", 1, "* * * * * *");
+        CheckedHabit habit = new CheckedHabit("habit1", "description1", 1L, "* * * * * *");
         checkedHabitDao.add(habit);
-        assertEquals(habit.getId(), 1);
+        assertEquals(habit.getId().longValue(), 1L);
     }
 
     @Test
     @DatabaseSetup("classpath:dao/CheckedHabitDaoTest/getTest/before.xml")
     public void getTest() {
         CheckedHabit habit = checkedHabitDao.get(1L);
-        assertEquals(habit.getId(), 1L);
+        assertEquals(habit.getId().longValue(), 1L);
         assertEquals(habit.getName(), "habit1");
         assertEquals(habit.getDescription(), "description1");
-        assertEquals(habit.getProfileId(), 1L);
+        assertEquals(habit.getProfileId().longValue(), 1L);
         assertEquals(habit.getCronExpression(), "* * * * * *");
     }
 
@@ -44,7 +44,7 @@ public class CheckedHabitDaoTest extends AbstractDaoTest {
     @DatabaseSetup("classpath:dao/CheckedHabitDaoTest/updateTest/before.xml")
     @ExpectedDatabase(value = "classpath:dao/CheckedHabitDaoTest/updateTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void updateTest() {
-        CheckedHabit habit = new CheckedHabit("habit1", "description1", 1, "* * * * * *");
+        CheckedHabit habit = new CheckedHabit("habit1", "description1", 1L, "* * * * * *");
         habit.setId(1L);
         habit.setName("updatedHabit");
         habit.setDescription("updatedDescription");
@@ -76,7 +76,7 @@ public class CheckedHabitDaoTest extends AbstractDaoTest {
             assertTrue(habitId >= 1L && habitId <= 3L);
             assertEquals(habit.getName(), "habit" + habitId);
             assertEquals(habit.getDescription(), "description" + habitId);
-            assertEquals(habit.getProfileId(), habitId + 3);
+            assertEquals(habit.getProfileId().longValue(), habitId + 3);
             assertEquals(habit.getCronExpression(), "cron" + habitId);
         });
     }
@@ -99,7 +99,7 @@ public class CheckedHabitDaoTest extends AbstractDaoTest {
             assertTrue(habitId >= 1L && habitId <= 3L);
             assertEquals(habit.getName(), "habit" + habitId);
             assertEquals(habit.getDescription(), "description" + habitId);
-            assertEquals(habit.getProfileId(), 1L);
+            assertEquals(habit.getProfileId().longValue(), 1L);
             assertEquals(habit.getCronExpression(), "cron" + habitId);
         });
     }
