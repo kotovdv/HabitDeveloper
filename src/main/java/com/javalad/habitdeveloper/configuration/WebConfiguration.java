@@ -27,7 +27,6 @@ import java.util.concurrent.TimeUnit;
 @EnableWebMvc
 public class WebConfiguration extends WebMvcConfigurerAdapter implements ApplicationContextAware {
 
-
     private ApplicationContext context;
 
     @Override

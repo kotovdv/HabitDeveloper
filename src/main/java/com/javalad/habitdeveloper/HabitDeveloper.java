@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Import;
  */
 @Import({DataSourceConfiguration.class, WebConfiguration.class})
 @SpringBootApplication(scanBasePackages = "com.javalad.habitdeveloper",
-        exclude={org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration.class})
+        exclude = {org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration.class})
 @ComponentScan(basePackages = "com.javalad.habitdeveloper")
 public class HabitDeveloper {
 

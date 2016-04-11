@@ -1,7 +1,6 @@
 package com.javalad.habitdeveloper.test.dao.util;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
-import com.javalad.habitdeveloper.configuration.DataSourceConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.annotation.Rollback;
@@ -19,7 +18,7 @@ import java.util.Date;
 @Rollback
 @Transactional
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(DataSourceConfiguration.class)
+@SpringApplicationConfiguration(DataSourceTestConfiguration.class)
 @TestExecutionListeners(value = {
         DisableConstraintsListener.class,
         DependencyInjectionTestExecutionListener.class,
