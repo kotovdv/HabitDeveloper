@@ -1,13 +1,13 @@
-package com.javalad.habitdeveloper.dao;
+package com.javalad.habitdeveloper.dao.impl.mybatis.mapper;
 
 import java.util.List;
 
 /**
  * @author KotovDV
  */
-public interface GenericDao<T, PK> {
+public interface MyBatisGenericMapper<T,PK>  {
 
-    T add(T entity);
+    void add(T entity);
 
     T get(PK id);
 

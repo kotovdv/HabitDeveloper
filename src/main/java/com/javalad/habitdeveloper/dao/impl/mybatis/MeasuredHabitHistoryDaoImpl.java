@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author KotovDV
  */
-@Repository("measuredHabitHistoryDao")
+@Repository
 public class MeasuredHabitHistoryDaoImpl extends MyBatisAbstractGenericDao<MeasuredHabitHistory, MeasuredHabitHistoryMapper, Long> implements MeasuredHabitHistoryDao {
 
     public MeasuredHabitHistoryDaoImpl() {

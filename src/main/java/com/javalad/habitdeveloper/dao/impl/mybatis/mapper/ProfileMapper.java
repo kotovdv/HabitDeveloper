@@ -1,6 +1,5 @@
 package com.javalad.habitdeveloper.dao.impl.mybatis.mapper;
 
-import com.javalad.habitdeveloper.dao.ProfileDao;
 import com.javalad.habitdeveloper.domain.Profile;
 import org.apache.ibatis.annotations.*;
 
@@ -9,7 +8,7 @@ import java.util.List;
 /**
  * @author KotovDV
  */
-public interface ProfileMapper extends ProfileDao {
+public interface ProfileMapper extends MyBatisGenericMapper<Profile, Long> {
 
     @Override
     @Insert("INSERT INTO PROFILE(name,description) VALUES (#{name},#{description})")

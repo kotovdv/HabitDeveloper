@@ -1,6 +1,5 @@
 package com.javalad.habitdeveloper.dao.impl.mybatis.mapper;
 
-import com.javalad.habitdeveloper.dao.MeasuredHabitHistoryDao;
 import com.javalad.habitdeveloper.domain.MeasuredHabitHistory;
 import org.apache.ibatis.annotations.*;
 
@@ -9,8 +8,7 @@ import java.util.List;
 /**
  * @author KotovDV
  */
-public interface MeasuredHabitHistoryMapper extends MeasuredHabitHistoryDao {
-
+public interface MeasuredHabitHistoryMapper extends MyBatisGenericMapper<MeasuredHabitHistory, Long> {
 
     @Override
     @Insert("INSERT INTO MEASURED_HABIT_HISTORY(measured_habit_id,check_date,measured_value) VALUES(#{measuredHabitId},#{checkDate},#{measuredValue})")
@@ -47,7 +45,6 @@ public interface MeasuredHabitHistoryMapper extends MeasuredHabitHistoryDao {
     @Select("SELECT COUNT(1) counted FROM MEASURED_HABIT_HISTORY WHERE id = #{id}")
     boolean exists(Long id);
 
-    @Override
     @Select("SELECT * FROM MEASURED_HABIT_HISTORY")
     @ResultMap("measuredHabitHistory.measuredHabitHistoryResultMap")
     List<MeasuredHabitHistory> getByHabitId(long measuredHabitId);

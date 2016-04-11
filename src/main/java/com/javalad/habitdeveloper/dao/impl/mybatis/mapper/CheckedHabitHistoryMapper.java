@@ -1,6 +1,5 @@
 package com.javalad.habitdeveloper.dao.impl.mybatis.mapper;
 
-import com.javalad.habitdeveloper.dao.CheckedHabitHistoryDao;
 import com.javalad.habitdeveloper.domain.CheckedHabitHistory;
 import org.apache.ibatis.annotations.*;
 
@@ -9,8 +8,7 @@ import java.util.List;
 /**
  * @author KotovDV
  */
-public interface CheckedHabitHistoryMapper extends CheckedHabitHistoryDao {
-
+public interface CheckedHabitHistoryMapper extends MyBatisGenericMapper<CheckedHabitHistory, Long> {
 
     @Override
     @Insert("INSERT INTO CHECKED_HABIT_HISTORY(checked_habit_id,check_date,check_flag) VALUES(#{checkedHabitId},#{checkDate},#{checkFlag})")
@@ -47,7 +45,6 @@ public interface CheckedHabitHistoryMapper extends CheckedHabitHistoryDao {
     @Select("SELECT COUNT(1) counted FROM CHECKED_HABIT_HISTORY WHERE id = #{id}")
     boolean exists(Long id);
 
-    @Override
     @Select("SELECT * FROM CHECKED_HABIT_HISTORY WHERE checked_habit_id = #{checkedHabitId}")
     @ResultMap("checkedHabitHistory.checkedHabitHistoryResultMap")
     List<CheckedHabitHistory> getByHabitId(long checkedHabitId);

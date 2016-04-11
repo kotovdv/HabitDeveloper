@@ -1,6 +1,5 @@
 package com.javalad.habitdeveloper.dao.impl.mybatis.mapper;
 
-import com.javalad.habitdeveloper.dao.MeasuredHabitDao;
 import com.javalad.habitdeveloper.domain.MeasuredHabit;
 import org.apache.ibatis.annotations.*;
 
@@ -9,7 +8,7 @@ import java.util.List;
 /**
  * @author KotovDV
  */
-public interface MeasuredHabitMapper extends MeasuredHabitDao {
+public interface MeasuredHabitMapper extends MyBatisGenericMapper<MeasuredHabit, Long> {
 
     @Override
     @Insert("INSERT INTO MEASURED_HABIT" +
@@ -50,8 +49,6 @@ public interface MeasuredHabitMapper extends MeasuredHabitDao {
     @Select("SELECT COUNT(1) counted FROM MEASURED_HABIT WHERE id = #{id}")
     boolean exists(Long id);
 
-
-    @Override
     @Select("SELECT * FROM MEASURED_HABIT WHERE profile_id = #{profileId}")
     @ResultMap("measuredHabit.measuredHabitResultMap")
     List<MeasuredHabit> getHabitsByProfileId(long profileId);

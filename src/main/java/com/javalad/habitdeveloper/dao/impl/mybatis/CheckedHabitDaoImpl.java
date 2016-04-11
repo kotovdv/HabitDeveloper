@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author KotovDV
  */
-@Repository("checkedHabitDao")
+@Repository
 public class CheckedHabitDaoImpl extends MyBatisAbstractGenericDao<CheckedHabit, CheckedHabitMapper, Long> implements CheckedHabitDao {
 
     public CheckedHabitDaoImpl() {
