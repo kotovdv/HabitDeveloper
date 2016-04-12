@@ -46,8 +46,8 @@
         <dbunit.version>2.5.1</dbunit.version>
         <spring-test-dbunit.version>1.2.1</spring-test-dbunit.version>
         <thymeleaf.version>3.0.0.BETA02</thymeleaf.version>
+        <mockito.version>1.10.19</mockito.version>
     </properties>
-
 
     <dependencies>
         <dependency>
@@ -132,7 +132,13 @@
             <scope>test</scope>
         </dependency>
 
-          <dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito.version}</version>
+        </dependency>
+
+        <dependency>
               <groupId>org.thymeleaf</groupId>
               <artifactId>thymeleaf</artifactId>
               <version>${thymeleaf.version}</version>
