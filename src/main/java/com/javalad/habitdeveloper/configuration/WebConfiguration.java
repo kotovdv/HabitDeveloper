@@ -11,11 +11,9 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
-import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.concurrent.TimeUnit;
@@ -47,7 +45,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements Applica
         return resolver;
     }
 
-    private TemplateEngine templateEngine() {
+    private SpringTemplateEngine templateEngine() {
         SpringTemplateEngine engine = new SpringTemplateEngine();
         engine.setTemplateResolver(templateResolver());
         return engine;
@@ -57,7 +55,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter implements Applica
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
         resolver.setApplicationContext(context);
         resolver.setPrefix("WEB-INF/templates/");
-        resolver.setTemplateMode(TemplateMode.HTML);
+        resolver.setTemplateMode("HTML5");
         return resolver;
     }
 
