@@ -12,6 +12,7 @@ public class DisableConstraintsListener extends AbstractTestExecutionListener {
     @Override
     public void beforeTestClass(TestContext testContext) throws Exception {
         JdbcTemplate jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
+
         disableForeignKeys(jdbcTemplate);
         super.beforeTestClass(testContext);
     }
@@ -19,6 +20,7 @@ public class DisableConstraintsListener extends AbstractTestExecutionListener {
     @Override
     public void afterTestClass(TestContext testContext) throws Exception {
         JdbcTemplate jdbcTemplate = testContext.getApplicationContext().getBean(JdbcTemplate.class);
+
         enableForeignKeys(jdbcTemplate);
         super.afterTestClass(testContext);
     }
@@ -31,8 +33,8 @@ public class DisableConstraintsListener extends AbstractTestExecutionListener {
         changeForeignKeysState(jdbcTemplate, true);
     }
 
-    private void changeForeignKeysState(JdbcTemplate jdbcTemplate, boolean enabled) {
-        jdbcTemplate.execute("SET DATABASE REFERENTIAL INTEGRITY " + (enabled ? "TRUE" : "FALSE"));
+    private void changeForeignKeysState(JdbcTemplate jdbcTemplate, boolean isEnabled) {
+        jdbcTemplate.execute("SET DATABASE REFERENTIAL INTEGRITY " + (isEnabled));
     }
 
 

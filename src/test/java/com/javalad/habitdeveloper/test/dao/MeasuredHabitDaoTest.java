@@ -6,9 +6,11 @@ import com.github.springtestdbunit.assertion.DatabaseAssertionMode;
 import com.javalad.habitdeveloper.dao.MeasuredHabitDao;
 import com.javalad.habitdeveloper.domain.MeasuredHabit;
 import com.javalad.habitdeveloper.test.dao.util.AbstractDaoTest;
+import com.javalad.habitdeveloper.util.DateConverter;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
@@ -26,7 +28,7 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
     @Test
     @ExpectedDatabase(value = "classpath:dao/MeasuredHabitDaoTest/addTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void addTest() {
-        MeasuredHabit habit = new MeasuredHabit("habit", "description", 1L, "* * * * * *", getTestingDate(2016, 1, 1, 21, 0, 0, 0), 100D);
+        MeasuredHabit habit = new MeasuredHabit("habit", "description", 1L, "* * * * * *", DateConverter.toDate(LocalDateTime.of(2016, 1, 1, 21, 0, 0, 0)), 100D);
         measuredHabitDao.add(habit);
         assertEquals(habit.getId().longValue(), 1L);
     }
@@ -40,7 +42,7 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
         assertEquals(habit.getDescription(), "description");
         assertEquals(habit.getProfileId().longValue(), 1L);
         assertEquals(habit.getCronExpression(), "* * * * * *");
-        assertEquals(habit.getDeadline(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
+        assertEquals(habit.getDeadline(), DateConverter.toDate(LocalDateTime.of(2016, 1, 1, 21, 0, 0, 0)));
         assertEquals(habit.getDeadlineValue(), 100, 0);
     }
 
@@ -48,7 +50,7 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
     @DatabaseSetup("classpath:dao/MeasuredHabitDaoTest/updateTest/before.xml")
     @ExpectedDatabase(value = "classpath:dao/MeasuredHabitDaoTest/updateTest/after.xml", assertionMode = DatabaseAssertionMode.NON_STRICT)
     public void updateTest() {
-        MeasuredHabit measuredHabit = new MeasuredHabit("updatedHabit", "updatedDescription", 2L, "* * *", getTestingDate(2016, 1, 1, 22, 0, 0, 0), 200D);
+        MeasuredHabit measuredHabit = new MeasuredHabit("updatedHabit", "updatedDescription", 2L, "* * *", DateConverter.toDate(LocalDateTime.of(2016, 1, 1, 22, 0, 0, 0)), 200D);
         measuredHabit.setId(1L);
         measuredHabitDao.update(measuredHabit);
     }
@@ -78,7 +80,7 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
             assertEquals(habit.getDescription(), "description" + habitId);
             assertEquals(habit.getProfileId().longValue(),habitId);
             assertEquals(habit.getCronExpression(), "cron" + habitId);
-            assertEquals(habit.getDeadline(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
+            assertEquals(habit.getDeadline(), DateConverter.toDate(LocalDateTime.of(2016, 1, 1, 21, 0, 0, 0)));
             assertEquals(habit.getDeadlineValue(), habitId * 100.0, 0);
         });
     }
@@ -103,7 +105,7 @@ public class MeasuredHabitDaoTest extends AbstractDaoTest {
             assertEquals(habit.getDescription(), "description" + habitId);
             assertEquals(habit.getProfileId().longValue(), 1L);
             assertEquals(habit.getCronExpression(), "cron" + habitId);
-            assertEquals(habit.getDeadline(), getTestingDate(2016, 1, 1, 21, 0, 0, 0));
+            assertEquals(habit.getDeadline(), DateConverter.toDate(LocalDateTime.of(2016, 1, 1, 21, 0, 0, 0)));
             assertEquals(habit.getDeadlineValue(), habitId * 100.0, 0);
         });
     }
