@@ -1,6 +1,7 @@
 package com.javalad.habitdeveloper.test.dao.util;
 
 import com.github.springtestdbunit.TransactionDbUnitTestExecutionListener;
+import com.javalad.habitdeveloper.test.dao.config.DataSourceTestConfiguration;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.annotation.Rollback;
@@ -24,21 +25,6 @@ import java.util.Date;
         DependencyInjectionTestExecutionListener.class,
         TransactionDbUnitTestExecutionListener.class})
 public abstract class AbstractDaoTest {
-
-    public abstract void addTest();
-
-    public abstract void getTest();
-
-    public abstract void updateTest();
-
-    public abstract void deleteTest();
-
-    public abstract void countTest();
-
-    public abstract void getAllTest();
-
-    public abstract void existsTest();
-
 
     protected Date getTestingDate(int year, int month, int day, int hour, int minute, int second, int millisecond) {
         Calendar calendar = Calendar.getInstance();
